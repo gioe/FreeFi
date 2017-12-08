@@ -7,13 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		26CDC63CFBD748AA85870EE5 /* Pods_FreeFiUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D2D16C9436162E0FF9CFCEB /* Pods_FreeFiUITests.framework */; };
+		3D3795E21FD98A1200B6F0B0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3795E11FD98A1200B6F0B0 /* LoginViewController.swift */; };
+		3D3795E41FD98A2A00B6F0B0 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3795E31FD98A2A00B6F0B0 /* MapViewController.swift */; };
+		3D3795E61FD98A4F00B6F0B0 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3795E51FD98A4F00B6F0B0 /* SearchViewController.swift */; };
+		3D3795E81FD98A6900B6F0B0 /* SpotDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3795E71FD98A6900B6F0B0 /* SpotDetailViewController.swift */; };
+		3D3795EA1FD98A9E00B6F0B0 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3795E91FD98A9E00B6F0B0 /* Address.swift */; };
+		3D3795EC1FD98AAF00B6F0B0 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3795EB1FD98AAF00B6F0B0 /* Network.swift */; };
+		3D3795EE1FD98ABB00B6F0B0 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3795ED1FD98ABB00B6F0B0 /* Resource.swift */; };
+		3D3795F01FD98AD200B6F0B0 /* Spot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3795EF1FD98AD200B6F0B0 /* Spot.swift */; };
+		3D3795F21FD98AE200B6F0B0 /* SpotsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3795F11FD98AE200B6F0B0 /* SpotsViewModel.swift */; };
+		3D3795F41FD98AEF00B6F0B0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3795F31FD98AEF00B6F0B0 /* User.swift */; };
+		3D3795F61FD98B0400B6F0B0 /* AddressForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3795F51FD98B0400B6F0B0 /* AddressForm.swift */; };
+		3D3795F81FD98B1500B6F0B0 /* AnnotationAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3795F71FD98B1500B6F0B0 /* AnnotationAccessoryView.swift */; };
+		3D3795FA1FD98B2500B6F0B0 /* FormSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3795F91FD98B2500B6F0B0 /* FormSectionHeader.swift */; };
+		3D3795FC1FD98B3700B6F0B0 /* NetworkInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3795FB1FD98B3700B6F0B0 /* NetworkInputView.swift */; };
+		3D3795FE1FD98B4800B6F0B0 /* SpotTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3795FD1FD98B4800B6F0B0 /* SpotTableViewCell.swift */; };
+		3D3796001FD98B5B00B6F0B0 /* TextInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3795FF1FD98B5B00B6F0B0 /* TextInputView.swift */; };
+		3D3796021FD98B7500B6F0B0 /* AnnotationRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3796011FD98B7500B6F0B0 /* AnnotationRegistry.swift */; };
+		3D3796041FD98B8800B6F0B0 /* AppNavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3796031FD98B8800B6F0B0 /* AppNavigationManager.swift */; };
+		3D3796071FD98B9D00B6F0B0 /* HTTPService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3796061FD98B9D00B6F0B0 /* HTTPService.swift */; };
+		3D3796091FD98BB200B6F0B0 /* ServicesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3796081FD98BB200B6F0B0 /* ServicesManager.swift */; };
+		3D37960B1FD98BC100B6F0B0 /* SpotsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D37960A1FD98BC100B6F0B0 /* SpotsService.swift */; };
+		3D37960D1FD98C0000B6F0B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D37960C1FD98BFF00B6F0B0 /* Assets.xcassets */; };
+		3D37960F1FD98C1700B6F0B0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D37960E1FD98C1700B6F0B0 /* LaunchScreen.storyboard */; };
 		3D7FD2F31FD9898800A85646 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7FD2F21FD9898800A85646 /* AppDelegate.swift */; };
 		3D7FD2F51FD9898800A85646 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7FD2F41FD9898800A85646 /* ViewController.swift */; };
 		3D7FD2F81FD9898800A85646 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D7FD2F61FD9898800A85646 /* Main.storyboard */; };
-		3D7FD2FA1FD9898800A85646 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D7FD2F91FD9898800A85646 /* Assets.xcassets */; };
-		3D7FD2FD1FD9898800A85646 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D7FD2FB1FD9898800A85646 /* LaunchScreen.storyboard */; };
 		3D7FD3081FD9898800A85646 /* FreeFiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7FD3071FD9898800A85646 /* FreeFiTests.swift */; };
 		3D7FD3131FD9898800A85646 /* FreeFiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7FD3121FD9898800A85646 /* FreeFiUITests.swift */; };
+		431A2D8AC925E586F6413E4F /* Pods_FreeFi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90D043FEDEA2143000CE1795 /* Pods_FreeFi.framework */; };
+		D9ED44AFEE0ACCA6199F590A /* Pods_FreeFiTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD3F34D47B5A8490B06ED453 /* Pods_FreeFiTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,12 +58,34 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2EA11268637DC47F10D608CD /* Pods-FreeFiTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FreeFiTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FreeFiTests/Pods-FreeFiTests.release.xcconfig"; sourceTree = "<group>"; };
+		3D3795E11FD98A1200B6F0B0 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		3D3795E31FD98A2A00B6F0B0 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		3D3795E51FD98A4F00B6F0B0 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		3D3795E71FD98A6900B6F0B0 /* SpotDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotDetailViewController.swift; sourceTree = "<group>"; };
+		3D3795E91FD98A9E00B6F0B0 /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
+		3D3795EB1FD98AAF00B6F0B0 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		3D3795ED1FD98ABB00B6F0B0 /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
+		3D3795EF1FD98AD200B6F0B0 /* Spot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spot.swift; sourceTree = "<group>"; };
+		3D3795F11FD98AE200B6F0B0 /* SpotsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotsViewModel.swift; sourceTree = "<group>"; };
+		3D3795F31FD98AEF00B6F0B0 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		3D3795F51FD98B0400B6F0B0 /* AddressForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressForm.swift; sourceTree = "<group>"; };
+		3D3795F71FD98B1500B6F0B0 /* AnnotationAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationAccessoryView.swift; sourceTree = "<group>"; };
+		3D3795F91FD98B2500B6F0B0 /* FormSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormSectionHeader.swift; sourceTree = "<group>"; };
+		3D3795FB1FD98B3700B6F0B0 /* NetworkInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkInputView.swift; sourceTree = "<group>"; };
+		3D3795FD1FD98B4800B6F0B0 /* SpotTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotTableViewCell.swift; sourceTree = "<group>"; };
+		3D3795FF1FD98B5B00B6F0B0 /* TextInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputView.swift; sourceTree = "<group>"; };
+		3D3796011FD98B7500B6F0B0 /* AnnotationRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationRegistry.swift; sourceTree = "<group>"; };
+		3D3796031FD98B8800B6F0B0 /* AppNavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationManager.swift; sourceTree = "<group>"; };
+		3D3796061FD98B9D00B6F0B0 /* HTTPService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPService.swift; sourceTree = "<group>"; };
+		3D3796081FD98BB200B6F0B0 /* ServicesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesManager.swift; sourceTree = "<group>"; };
+		3D37960A1FD98BC100B6F0B0 /* SpotsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotsService.swift; sourceTree = "<group>"; };
+		3D37960C1FD98BFF00B6F0B0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3D37960E1FD98C1700B6F0B0 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3D7FD2EF1FD9898800A85646 /* FreeFi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FreeFi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D7FD2F21FD9898800A85646 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3D7FD2F41FD9898800A85646 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3D7FD2F71FD9898800A85646 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		3D7FD2F91FD9898800A85646 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		3D7FD2FC1FD9898800A85646 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3D7FD2FE1FD9898800A85646 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3D7FD3031FD9898800A85646 /* FreeFiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FreeFiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D7FD3071FD9898800A85646 /* FreeFiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeFiTests.swift; sourceTree = "<group>"; };
@@ -47,6 +93,14 @@
 		3D7FD30E1FD9898800A85646 /* FreeFiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FreeFiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D7FD3121FD9898800A85646 /* FreeFiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeFiUITests.swift; sourceTree = "<group>"; };
 		3D7FD3141FD9898800A85646 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3E62E95ACED0EF8774592737 /* Pods-FreeFi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FreeFi.release.xcconfig"; path = "Pods/Target Support Files/Pods-FreeFi/Pods-FreeFi.release.xcconfig"; sourceTree = "<group>"; };
+		5ACC1D43349000C79BA689E9 /* Pods-FreeFi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FreeFi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FreeFi/Pods-FreeFi.debug.xcconfig"; sourceTree = "<group>"; };
+		7D2D16C9436162E0FF9CFCEB /* Pods_FreeFiUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FreeFiUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		90D043FEDEA2143000CE1795 /* Pods_FreeFi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FreeFi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF5D2952DAE06D5A35886BBD /* Pods-FreeFiUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FreeFiUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FreeFiUITests/Pods-FreeFiUITests.release.xcconfig"; sourceTree = "<group>"; };
+		CD3F34D47B5A8490B06ED453 /* Pods_FreeFiTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FreeFiTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5D67BED7CB1833604E66D3C /* Pods-FreeFiUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FreeFiUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FreeFiUITests/Pods-FreeFiUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		EA9F0D4CDC96B2FEEE730C4E /* Pods-FreeFiTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FreeFiTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FreeFiTests/Pods-FreeFiTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				431A2D8AC925E586F6413E4F /* Pods_FreeFi.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9ED44AFEE0ACCA6199F590A /* Pods_FreeFiTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,12 +124,72 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26CDC63CFBD748AA85870EE5 /* Pods_FreeFiUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		302BCE3D1D6FC42484E83C2D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				90D043FEDEA2143000CE1795 /* Pods_FreeFi.framework */,
+				CD3F34D47B5A8490B06ED453 /* Pods_FreeFiTests.framework */,
+				7D2D16C9436162E0FF9CFCEB /* Pods_FreeFiUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3D3795DD1FD989E600B6F0B0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3D3795E91FD98A9E00B6F0B0 /* Address.swift */,
+				3D3795EB1FD98AAF00B6F0B0 /* Network.swift */,
+				3D3795ED1FD98ABB00B6F0B0 /* Resource.swift */,
+				3D3795F31FD98AEF00B6F0B0 /* User.swift */,
+				3D3795EF1FD98AD200B6F0B0 /* Spot.swift */,
+				3D3795F11FD98AE200B6F0B0 /* SpotsViewModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		3D3795DE1FD989EC00B6F0B0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3D3795F51FD98B0400B6F0B0 /* AddressForm.swift */,
+				3D3795FF1FD98B5B00B6F0B0 /* TextInputView.swift */,
+				3D3795FD1FD98B4800B6F0B0 /* SpotTableViewCell.swift */,
+				3D3795F71FD98B1500B6F0B0 /* AnnotationAccessoryView.swift */,
+				3D3795F91FD98B2500B6F0B0 /* FormSectionHeader.swift */,
+				3D3795FB1FD98B3700B6F0B0 /* NetworkInputView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		3D3795DF1FD989F200B6F0B0 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				3D3795E11FD98A1200B6F0B0 /* LoginViewController.swift */,
+				3D3795E31FD98A2A00B6F0B0 /* MapViewController.swift */,
+				3D3795E51FD98A4F00B6F0B0 /* SearchViewController.swift */,
+				3D3795E71FD98A6900B6F0B0 /* SpotDetailViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		3D3795E01FD989F600B6F0B0 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				3D3796011FD98B7500B6F0B0 /* AnnotationRegistry.swift */,
+				3D3796081FD98BB200B6F0B0 /* ServicesManager.swift */,
+				3D3796061FD98B9D00B6F0B0 /* HTTPService.swift */,
+				3D37960A1FD98BC100B6F0B0 /* SpotsService.swift */,
+				3D3796031FD98B8800B6F0B0 /* AppNavigationManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		3D7FD2E61FD9898800A85646 = {
 			isa = PBXGroup;
 			children = (
@@ -81,6 +197,8 @@
 				3D7FD3061FD9898800A85646 /* FreeFiTests */,
 				3D7FD3111FD9898800A85646 /* FreeFiUITests */,
 				3D7FD2F01FD9898800A85646 /* Products */,
+				B62B06A0986303CD8BFD8682 /* Pods */,
+				302BCE3D1D6FC42484E83C2D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,11 +215,15 @@
 		3D7FD2F11FD9898800A85646 /* FreeFi */ = {
 			isa = PBXGroup;
 			children = (
+				3D3795E01FD989F600B6F0B0 /* Services */,
+				3D3795DF1FD989F200B6F0B0 /* Controllers */,
+				3D3795DE1FD989EC00B6F0B0 /* Views */,
+				3D3795DD1FD989E600B6F0B0 /* Models */,
 				3D7FD2F21FD9898800A85646 /* AppDelegate.swift */,
 				3D7FD2F41FD9898800A85646 /* ViewController.swift */,
 				3D7FD2F61FD9898800A85646 /* Main.storyboard */,
-				3D7FD2F91FD9898800A85646 /* Assets.xcassets */,
-				3D7FD2FB1FD9898800A85646 /* LaunchScreen.storyboard */,
+				3D37960C1FD98BFF00B6F0B0 /* Assets.xcassets */,
+				3D37960E1FD98C1700B6F0B0 /* LaunchScreen.storyboard */,
 				3D7FD2FE1FD9898800A85646 /* Info.plist */,
 			);
 			path = FreeFi;
@@ -125,6 +247,19 @@
 			path = FreeFiUITests;
 			sourceTree = "<group>";
 		};
+		B62B06A0986303CD8BFD8682 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5ACC1D43349000C79BA689E9 /* Pods-FreeFi.debug.xcconfig */,
+				3E62E95ACED0EF8774592737 /* Pods-FreeFi.release.xcconfig */,
+				EA9F0D4CDC96B2FEEE730C4E /* Pods-FreeFiTests.debug.xcconfig */,
+				2EA11268637DC47F10D608CD /* Pods-FreeFiTests.release.xcconfig */,
+				E5D67BED7CB1833604E66D3C /* Pods-FreeFiUITests.debug.xcconfig */,
+				AF5D2952DAE06D5A35886BBD /* Pods-FreeFiUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -132,9 +267,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3D7FD3171FD9898800A85646 /* Build configuration list for PBXNativeTarget "FreeFi" */;
 			buildPhases = (
+				E8C8243A19ADCF73587B0EAD /* [CP] Check Pods Manifest.lock */,
 				3D7FD2EB1FD9898800A85646 /* Sources */,
 				3D7FD2EC1FD9898800A85646 /* Frameworks */,
 				3D7FD2ED1FD9898800A85646 /* Resources */,
+				0FDF40861DE5461B998EF6C6 /* [CP] Embed Pods Frameworks */,
+				4A90EE984BCA415592F5C34C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -149,9 +287,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3D7FD31A1FD9898800A85646 /* Build configuration list for PBXNativeTarget "FreeFiTests" */;
 			buildPhases = (
+				0123FC1B9615B5BB8E16AA66 /* [CP] Check Pods Manifest.lock */,
 				3D7FD2FF1FD9898800A85646 /* Sources */,
 				3D7FD3001FD9898800A85646 /* Frameworks */,
 				3D7FD3011FD9898800A85646 /* Resources */,
+				C4A3EC104B09C3D388C201AF /* [CP] Embed Pods Frameworks */,
+				9D6F6B40AB474609A7DEC83E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -167,9 +308,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3D7FD31D1FD9898800A85646 /* Build configuration list for PBXNativeTarget "FreeFiUITests" */;
 			buildPhases = (
+				77FAB149D1D90DDEBD7A891E /* [CP] Check Pods Manifest.lock */,
 				3D7FD30A1FD9898800A85646 /* Sources */,
 				3D7FD30B1FD9898800A85646 /* Frameworks */,
 				3D7FD30C1FD9898800A85646 /* Resources */,
+				870F438FE6585A1B98716AD8 /* [CP] Embed Pods Frameworks */,
+				641E783C0E1F8F800EBEEA0E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -232,8 +376,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D7FD2FD1FD9898800A85646 /* LaunchScreen.storyboard in Resources */,
-				3D7FD2FA1FD9898800A85646 /* Assets.xcassets in Resources */,
+				3D37960F1FD98C1700B6F0B0 /* LaunchScreen.storyboard in Resources */,
+				3D37960D1FD98C0000B6F0B0 /* Assets.xcassets in Resources */,
 				3D7FD2F81FD9898800A85646 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -254,13 +398,189 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0123FC1B9615B5BB8E16AA66 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FreeFiTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		0FDF40861DE5461B998EF6C6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-FreeFi/Pods-FreeFi-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftSpinner/SwiftSpinner.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftSpinner.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FreeFi/Pods-FreeFi-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4A90EE984BCA415592F5C34C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-FreeFi/Pods-FreeFi-resources.sh",
+				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FreeFi/Pods-FreeFi-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		641E783C0E1F8F800EBEEA0E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FreeFiUITests/Pods-FreeFiUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		77FAB149D1D90DDEBD7A891E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FreeFiUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		870F438FE6585A1B98716AD8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FreeFiUITests/Pods-FreeFiUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9D6F6B40AB474609A7DEC83E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FreeFiTests/Pods-FreeFiTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C4A3EC104B09C3D388C201AF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FreeFiTests/Pods-FreeFiTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E8C8243A19ADCF73587B0EAD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FreeFi-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		3D7FD2EB1FD9898800A85646 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D3795EE1FD98ABB00B6F0B0 /* Resource.swift in Sources */,
+				3D3795E61FD98A4F00B6F0B0 /* SearchViewController.swift in Sources */,
+				3D3795FE1FD98B4800B6F0B0 /* SpotTableViewCell.swift in Sources */,
+				3D3795E21FD98A1200B6F0B0 /* LoginViewController.swift in Sources */,
+				3D3795F61FD98B0400B6F0B0 /* AddressForm.swift in Sources */,
+				3D3796091FD98BB200B6F0B0 /* ServicesManager.swift in Sources */,
+				3D3795F81FD98B1500B6F0B0 /* AnnotationAccessoryView.swift in Sources */,
+				3D3795EC1FD98AAF00B6F0B0 /* Network.swift in Sources */,
+				3D3796071FD98B9D00B6F0B0 /* HTTPService.swift in Sources */,
+				3D3795FC1FD98B3700B6F0B0 /* NetworkInputView.swift in Sources */,
+				3D3796001FD98B5B00B6F0B0 /* TextInputView.swift in Sources */,
+				3D3795F21FD98AE200B6F0B0 /* SpotsViewModel.swift in Sources */,
 				3D7FD2F51FD9898800A85646 /* ViewController.swift in Sources */,
+				3D3795E81FD98A6900B6F0B0 /* SpotDetailViewController.swift in Sources */,
+				3D3796021FD98B7500B6F0B0 /* AnnotationRegistry.swift in Sources */,
+				3D3796041FD98B8800B6F0B0 /* AppNavigationManager.swift in Sources */,
+				3D37960B1FD98BC100B6F0B0 /* SpotsService.swift in Sources */,
 				3D7FD2F31FD9898800A85646 /* AppDelegate.swift in Sources */,
+				3D3795F41FD98AEF00B6F0B0 /* User.swift in Sources */,
+				3D3795F01FD98AD200B6F0B0 /* Spot.swift in Sources */,
+				3D3795FA1FD98B2500B6F0B0 /* FormSectionHeader.swift in Sources */,
+				3D3795E41FD98A2A00B6F0B0 /* MapViewController.swift in Sources */,
+				3D3795EA1FD98A9E00B6F0B0 /* Address.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,14 +622,6 @@
 				3D7FD2F71FD9898800A85646 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		3D7FD2FB1FD9898800A85646 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3D7FD2FC1FD9898800A85646 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -424,6 +736,7 @@
 		};
 		3D7FD3181FD9898800A85646 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5ACC1D43349000C79BA689E9 /* Pods-FreeFi.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -439,6 +752,7 @@
 		};
 		3D7FD3191FD9898800A85646 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3E62E95ACED0EF8774592737 /* Pods-FreeFi.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -454,6 +768,7 @@
 		};
 		3D7FD31B1FD9898800A85646 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EA9F0D4CDC96B2FEEE730C4E /* Pods-FreeFiTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -471,6 +786,7 @@
 		};
 		3D7FD31C1FD9898800A85646 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2EA11268637DC47F10D608CD /* Pods-FreeFiTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -488,6 +804,7 @@
 		};
 		3D7FD31E1FD9898800A85646 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E5D67BED7CB1833604E66D3C /* Pods-FreeFiUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -504,6 +821,7 @@
 		};
 		3D7FD31F1FD9898800A85646 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AF5D2952DAE06D5A35886BBD /* Pods-FreeFiUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
