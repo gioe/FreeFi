@@ -32,10 +32,11 @@ public class AppNavigationManager: NSObject {
     }
     
     private func determineRootView() {
-        let initialMenuViewController = MapViewController()
-        let navigationController = UINavigationController(rootViewController: initialMenuViewController)
-        navigationController.setNavigationBarHidden(true, animated: false)
+        let tabBarVc = MainTabBarViewController()
+        let navigationController = UINavigationController(rootViewController: tabBarVc)
+        navigationController.setNavigationBarHidden(false, animated: false)
         currentRootView = navigationController
+        
     }
     
     private func presentSplash() {

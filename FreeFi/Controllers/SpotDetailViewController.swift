@@ -8,10 +8,12 @@
 
 import UIKit
 import CoreLocation
+import SwiftSpinner
 
 class SpotDetailViewController: UIViewController {
     
     enum DetailViewType {
+        case empty
         case new (location: CLLocation)
         case existing (spot: Spot)
         
@@ -52,13 +54,15 @@ class SpotDetailViewController: UIViewController {
         }
     }
     
+    var submissionDelegate: Submittable?
     var addressForm: AddressForm?
-    private var viewType: DetailViewType!
+    public var viewType: DetailViewType!
     
     public init(type: DetailViewType) {
-        self.viewType = type
-        self.addressForm = AddressForm(viewType: type)
+        viewType = type
+        addressForm = AddressForm(viewType: type)
         super.init(nibName: nil, bundle: nil)
+        self.view.backgroundColor = ColorConstant.basicBrown.color
     }
     
     public convenience init() {
@@ -78,7 +82,7 @@ class SpotDetailViewController: UIViewController {
     }
     
     func setupViews() {
-        
+    
         guard let addressForm = addressForm else {
             return
         }
@@ -87,6 +91,7 @@ class SpotDetailViewController: UIViewController {
         addressForm.addressRow.textInput.delegate = self
         
         addressForm.submissionDelegate = self
+        addressForm.errorDelegate = self
         
         addressForm.translatesAutoresizingMaskIntoConstraints = false
         
@@ -106,6 +111,19 @@ class SpotDetailViewController: UIViewController {
         addressForm.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         addressForm.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         addressForm.heightAnchor.constraint(equalToConstant: addressForm.intrinsicContentSize.height).isActive = true
+    }
+    
+}
+
+extension SpotDetailViewController: FormErrorPresentable {
+   
+    func presentErrorOfType(_ type: AddressForm.FormError) {
+        let alertController = UIAlertController(title: "Alert", message: type.errorMessage, preferredStyle: .alert)
+       
+        let action1 = UIAlertAction(title: "OK", style: .default)
+        
+        alertController.addAction(action1)
+        self.present(alertController, animated: true, completion: nil)
     }
     
 }
@@ -141,7 +159,9 @@ extension SpotDetailViewController: FormSubmissionDelegate {
                 guard error == nil else {
                     return
                 }
-                self.navigationController?.popViewController(animated: true)
+                SwiftSpinner.hide({
+                    self.submissionDelegate?.submittedForm()
+                })
             }
         }
         

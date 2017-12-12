@@ -16,6 +16,13 @@ class NetworkInputView: UIView {
     
     var addDelegate: AddRowDelegate?
     
+    public var isEmpty: Bool {
+        guard let networkName = networkNameInput.text, !networkName.isEmpty, let passwordName = passwordInput.text, !passwordName.isEmpty else {
+            return true
+        }
+        return false
+    }
+    
     var networkNameInput: UITextField = {
         var input = UITextField()
         input.textAlignment = .left
@@ -83,10 +90,8 @@ class NetworkInputView: UIView {
     }
     
     @objc func addNetwork() {
-        addButton.isHidden = true
         addDelegate?.addNewRow()
     }
-    
-    
+
 }
 

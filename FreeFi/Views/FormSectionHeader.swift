@@ -29,7 +29,7 @@ class FormSectionHeader: UIView {
     
     func configureView() {
         
-        backgroundColor = .lightGray
+        backgroundColor = .white
         
         [textLabel].forEach{
             addSubview($0)

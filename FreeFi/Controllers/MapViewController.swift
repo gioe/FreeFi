@@ -37,30 +37,9 @@ class MapViewController: UIViewController {
         }
     }
 
-    private let permissionsButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Adjust Permissions", for: .normal)
-        button.addTarget(self, action: #selector(pushPermissionView), for: .touchUpInside)
-        return button
-    }()
-    
-    let resultsTable: UITableView = {
-        let table = UITableView()
-        table.translatesAutoresizingMaskIntoConstraints = false
-        table.isHidden = true
-        return table
-    }()
-    
     private var currentLocation: CLLocation? {
         didSet {
             determineZipcode()
-        }
-    }
-    
-    private var searchedLocations: [Spot] = [] {
-        didSet {
-            resultsTable.reloadData()
         }
     }
     
@@ -82,41 +61,20 @@ class MapViewController: UIViewController {
     
     private func setupLocationManager() {
         switch CLLocationManager.authorizationStatus() {
-        case .notDetermined:
-            locationManager.requestAlwaysAuthorization()
-        case .authorizedAlways:
-            mapPermission = .allowed
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            locationManager.startUpdatingLocation()
-            SwiftSpinner.show("Locating spots...")
-        case .denied:
-            mapPermission = .denied
         default:
-            break
+            locationManager.delegate = self
+            locationManager.requestAlwaysAuthorization()
         }
     }
     
     private func setupPermissionViews() {
         
-        [permissionsButton].forEach{
-            view.addSubview($0)
-        }
-        
-        setupConstraints()
+       view = PermissionView()
 
     }
         
     private func setupMapViews() {
         
-        navigationController?.setNavigationBarHidden(false, animated: true)
-        navigationItem.title = "FreeFi"
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "add"), style: .done, target: self, action: #selector(addNewSpot))
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "refresh"), style: .done, target: self, action: #selector(refreshMap))
-        
-        searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search For Address"
         navigationItem.searchController = searchController
@@ -130,9 +88,7 @@ class MapViewController: UIViewController {
         mapView.showsUserLocation = true
         mapView.translatesAutoresizingMaskIntoConstraints = false
         
-        resultsTable.dataSource = self
-        
-        [mapView, resultsTable].forEach{
+        [mapView].forEach{
             view.addSubview($0)
         }
         
@@ -141,37 +97,25 @@ class MapViewController: UIViewController {
     }
     
     func setupConstraints() {
-        
-        resultsTable.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        resultsTable.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        resultsTable.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        resultsTable.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        
-        mapView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        mapView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        mapView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        switch mapPermission {
+        case .allowed:
+            mapView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+            mapView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+            mapView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+            mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        default:
+           break
+        }
     }
     
-    @objc private func addNewSpot() {
+    public func generateCurrentSpot() -> SpotDetailViewController.DetailViewType {
+        
         guard let location = currentLocation else {
-            return
+            return .empty
         }
         
-        let spotVc = SpotDetailViewController(type: .new(location: location))
-        spotVc.view.backgroundColor = .white
-        navigationController?.pushViewController(spotVc, animated: true)
-    }
+        return .new(location: location)
     
-    @objc private func refreshMap() {
-        closestLocations.removeAll()
-
-        self.lookupSpotsAtZipcode(currentZipCode)
-
-    }
-    
-    @objc private func pushPermissionView() {
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -215,6 +159,23 @@ class MapViewController: UIViewController {
 }
 
 extension MapViewController: CLLocationManagerDelegate {
+    
+    public func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        
+        switch status {
+        case .authorizedAlways:
+            mapPermission = .allowed
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.startUpdatingLocation()
+            SwiftSpinner.show("Locating spots...")
+        case .denied:
+            mapPermission = .denied
+        default:
+            break
+        }
+        
+    }
+    
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         guard !locations.isEmpty, let firstLocation = locations.first else { return }
@@ -268,10 +229,6 @@ extension MapViewController: MKMapViewDelegate {
 extension MapViewController: GMSAutocompleteViewControllerDelegate {
     
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-        // Print place info to the console.
-        print("Place name: \(place.name)")
-        print("Place address: \(place.formattedAddress)")
-        print("Place attributions: \(place.attributions)")
         
         if let addressLines = place.addressComponents {
             // Populate all of the address fields we can find.
@@ -280,7 +237,7 @@ extension MapViewController: GMSAutocompleteViewControllerDelegate {
                 case kGMSPlaceTypePostalCode:
                     mapView.centerCoordinate = place.coordinate
                     currentZipCode = field.name
-                    refreshMap()
+                    refreshData()
                 default:
                     print("Type: \(field.type), Name: \(field.name)")
                 }
@@ -326,40 +283,21 @@ extension MapViewController: UISearchBarDelegate {
         present(autocompleteController, animated: true, completion: nil)
         
     }
-    
-    public func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        resultsTable.isHidden = true
-        mapView.isHidden = false
-    }
-    
-    public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
-    }
+ 
 }
 
-extension MapViewController: UISearchResultsUpdating {
-    // MARK: - UISearchResultsUpdating Delegate
-    func updateSearchResults(for searchController: UISearchController) {
-        
-    }
-}
-
-extension MapViewController: UITableViewDataSource {
+extension MapViewController: Refreshable {
     
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard !searchedLocations.isEmpty else {
-            return 0
-        }
-        return searchedLocations.count
-    }
+    public func refreshData() {
     
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        guard !searchedLocations.isEmpty else {
-            return UITableViewCell()
+        guard CLLocationManager.authorizationStatus() != .denied, !mapView.annotations.isEmpty else {
+            return
         }
-        let cell = UITableViewCell()
-        return cell
+        
+        closestLocations.removeAll()
+        mapView.removeAnnotations(mapView.annotations)
+        
+        self.lookupSpotsAtZipcode(currentZipCode)
     }
     
 }

@@ -31,6 +31,9 @@
 		3D37960B1FD98BC100B6F0B0 /* SpotsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D37960A1FD98BC100B6F0B0 /* SpotsService.swift */; };
 		3D37960D1FD98C0000B6F0B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D37960C1FD98BFF00B6F0B0 /* Assets.xcassets */; };
 		3D37960F1FD98C1700B6F0B0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D37960E1FD98C1700B6F0B0 /* LaunchScreen.storyboard */; };
+		3D4F700E1FDB2EA600C7C936 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4F700D1FDB2EA600C7C936 /* MainTabBarViewController.swift */; };
+		3D4F70101FDB54DB00C7C936 /* PermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4F700F1FDB54DB00C7C936 /* PermissionView.swift */; };
+		3D4F70131FDF85C200C7C936 /* ColorConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4F70121FDF85C200C7C936 /* ColorConstant.swift */; };
 		3D7FD2F31FD9898800A85646 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7FD2F21FD9898800A85646 /* AppDelegate.swift */; };
 		3D7FD2F51FD9898800A85646 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7FD2F41FD9898800A85646 /* ViewController.swift */; };
 		3D7FD2F81FD9898800A85646 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D7FD2F61FD9898800A85646 /* Main.storyboard */; };
@@ -82,6 +85,9 @@
 		3D37960A1FD98BC100B6F0B0 /* SpotsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotsService.swift; sourceTree = "<group>"; };
 		3D37960C1FD98BFF00B6F0B0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3D37960E1FD98C1700B6F0B0 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		3D4F700D1FDB2EA600C7C936 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
+		3D4F700F1FDB54DB00C7C936 /* PermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionView.swift; sourceTree = "<group>"; };
+		3D4F70121FDF85C200C7C936 /* ColorConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorConstant.swift; sourceTree = "<group>"; };
 		3D7FD2EF1FD9898800A85646 /* FreeFi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FreeFi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D7FD2F21FD9898800A85646 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3D7FD2F41FD9898800A85646 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -163,6 +169,7 @@
 				3D3795F71FD98B1500B6F0B0 /* AnnotationAccessoryView.swift */,
 				3D3795F91FD98B2500B6F0B0 /* FormSectionHeader.swift */,
 				3D3795FB1FD98B3700B6F0B0 /* NetworkInputView.swift */,
+				3D4F700F1FDB54DB00C7C936 /* PermissionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -174,6 +181,7 @@
 				3D3795E31FD98A2A00B6F0B0 /* MapViewController.swift */,
 				3D3795E51FD98A4F00B6F0B0 /* SearchViewController.swift */,
 				3D3795E71FD98A6900B6F0B0 /* SpotDetailViewController.swift */,
+				3D4F700D1FDB2EA600C7C936 /* MainTabBarViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -188,6 +196,14 @@
 				3D3796031FD98B8800B6F0B0 /* AppNavigationManager.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		3D4F70111FDF85AF00C7C936 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				3D4F70121FDF85C200C7C936 /* ColorConstant.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		3D7FD2E61FD9898800A85646 = {
@@ -215,6 +231,7 @@
 		3D7FD2F11FD9898800A85646 /* FreeFi */ = {
 			isa = PBXGroup;
 			children = (
+				3D4F70111FDF85AF00C7C936 /* Helpers */,
 				3D3795E01FD989F600B6F0B0 /* Services */,
 				3D3795DF1FD989F200B6F0B0 /* Controllers */,
 				3D3795DE1FD989EC00B6F0B0 /* Views */,
@@ -558,6 +575,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D4F70101FDB54DB00C7C936 /* PermissionView.swift in Sources */,
 				3D3795EE1FD98ABB00B6F0B0 /* Resource.swift in Sources */,
 				3D3795E61FD98A4F00B6F0B0 /* SearchViewController.swift in Sources */,
 				3D3795FE1FD98B4800B6F0B0 /* SpotTableViewCell.swift in Sources */,
@@ -567,12 +585,14 @@
 				3D3795F81FD98B1500B6F0B0 /* AnnotationAccessoryView.swift in Sources */,
 				3D3795EC1FD98AAF00B6F0B0 /* Network.swift in Sources */,
 				3D3796071FD98B9D00B6F0B0 /* HTTPService.swift in Sources */,
+				3D4F700E1FDB2EA600C7C936 /* MainTabBarViewController.swift in Sources */,
 				3D3795FC1FD98B3700B6F0B0 /* NetworkInputView.swift in Sources */,
 				3D3796001FD98B5B00B6F0B0 /* TextInputView.swift in Sources */,
 				3D3795F21FD98AE200B6F0B0 /* SpotsViewModel.swift in Sources */,
 				3D7FD2F51FD9898800A85646 /* ViewController.swift in Sources */,
 				3D3795E81FD98A6900B6F0B0 /* SpotDetailViewController.swift in Sources */,
 				3D3796021FD98B7500B6F0B0 /* AnnotationRegistry.swift in Sources */,
+				3D4F70131FDF85C200C7C936 /* ColorConstant.swift in Sources */,
 				3D3796041FD98B8800B6F0B0 /* AppNavigationManager.swift in Sources */,
 				3D37960B1FD98BC100B6F0B0 /* SpotsService.swift in Sources */,
 				3D7FD2F31FD9898800A85646 /* AppDelegate.swift in Sources */,

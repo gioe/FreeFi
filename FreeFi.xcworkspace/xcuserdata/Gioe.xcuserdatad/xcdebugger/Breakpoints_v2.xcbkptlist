@@ -4,21 +4,82 @@
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            scope = "0"
-            stopOnStyle = "0">
+            filePath = "FreeFi/Views/AddressForm.swift"
+            timestampString = "534742984.147772"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "networkRows"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FreeFi.AddressForm.networkRows.getter : Swift.Array&lt;FreeFi.NetworkInputView&gt;"
+                  moduleName = "FreeFi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Gioe/Desktop/FreeFi/FreeFi/Views/AddressForm.swift"
+                  timestampString = "534742984.333603"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "47"
+                  endingLineNumber = "47"
+                  offsetFromSymbolStart = "24">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__ObjC.UIView) -&gt; Swift.Bool in FreeFi.AddressForm.networkRows.getter : Swift.Array&lt;FreeFi.NetworkInputView&gt;"
+                  moduleName = "FreeFi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Gioe/Desktop/FreeFi/FreeFi/Views/AddressForm.swift"
+                  timestampString = "534742984.338548"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "47"
+                  endingLineNumber = "47"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (__ObjC.UIView) -&gt; FreeFi.NetworkInputView in FreeFi.AddressForm.networkRows.getter : Swift.Array&lt;FreeFi.NetworkInputView&gt;"
+                  moduleName = "FreeFi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Gioe/Desktop/FreeFi/FreeFi/Views/AddressForm.swift"
+                  timestampString = "534742984.344573"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "47"
+                  endingLineNumber = "47"
+                  offsetFromSymbolStart = "12">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.SwiftErrorBreakpoint">
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
-            continueAfterRunningActions = "No">
+            continueAfterRunningActions = "No"
+            filePath = "FreeFi/Views/AddressForm.swift"
+            timestampString = "534742984.148302"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
+            landmarkName = "isEmpty"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

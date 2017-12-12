@@ -7,14 +7,45 @@
 //
 
 import UIKit
+import SwiftSpinner
+
+internal protocol FormErrorPresentable {
+    func presentErrorOfType(_ type: AddressForm.FormError)
+}
 
 public protocol FormSubmissionDelegate {
     func submitForm(form: JSONDictionary)
 }
 
-class AddressForm: UIStackView {
+internal class AddressForm: UIStackView {
+    
+    internal enum FormError {
+        case emptyNetwork
+        case emptyForm
+        
+        var errorMessage: String {
+            switch self {
+            case .emptyForm:
+                return "Form is not sufficiently filled out. Please check that all relevant information is filled in and resubmit."
+            default:
+                return "Can't add another network before filling in the last one."
+            }
+        }
+    }
     
     public var submissionDelegate: FormSubmissionDelegate?
+    public var errorDelegate: FormErrorPresentable?
+
+    public var isEmpty: Bool {
+        guard !nameRow.isEmpty, !addressRow.isEmpty, !networkRows.isEmpty else {
+            return true
+        }
+        return false
+    }
+    
+    public var networkRows: [NetworkInputView] {
+        return subviews.filter{$0 is NetworkInputView}.map{$0 as! NetworkInputView}
+    }
     
     public var viewType: SpotDetailViewController.DetailViewType? = nil {
         didSet {
@@ -30,45 +61,47 @@ class AddressForm: UIStackView {
     public let basicSectionHeader: FormSectionHeader = {
         let row = FormSectionHeader()
         row.textLabel.text = "Basic Info"
-        row.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        row.heightAnchor.constraint(equalToConstant: 30).isActive = true
         return row
     }()
     
     public let networkSectionHeader: FormSectionHeader = {
         let row = FormSectionHeader()
         row.textLabel.text = "Network Info"
-        row.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        row.heightAnchor.constraint(equalToConstant: 30).isActive = true
         return row
     }()
     
     public let nameRow: TextInputView = {
         let row = TextInputView()
         row.textLabel.text = "Name"
+        row.textLabel.textColor = .white
         row.textInput.placeholder = "Enter Name Here"
-        row.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        row.heightAnchor.constraint(equalToConstant: 70).isActive = true
         return row
     }()
     
     public let addressRow: TextInputView = {
         let row = TextInputView()
         row.textLabel.text = "Address"
+        row.textLabel.textColor = .white
         row.textInput.placeholder = "Enter Address Here"
-        row.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        row.heightAnchor.constraint(equalToConstant: 70).isActive = true
         return row
     }()
     
-    public let networkRow: NetworkInputView = {
+    public lazy var networkRow: NetworkInputView = {
         let row = NetworkInputView()
-        row.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        row.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        row.addDelegate = self
         return row
     }()
     
     private let submissionButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .black
+        button.backgroundColor = .white
         button.setTitle("Add Spot", for: .normal)
-        let yellow = UIColor(red: 234, green: 91, blue: 0, alpha: 1)
-        button.setTitleColor(yellow, for: .normal)
+        button.setTitleColor(ColorConstant.basicBrown.color, for: .normal)
         button.addTarget(self, action: #selector(submitForm), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.clipsToBounds = true
@@ -94,12 +127,15 @@ class AddressForm: UIStackView {
     
     @objc func submitForm() {
         
-        guard let name = nameRow.textInput.text, let address = addressRow.textInput.text else {
-            print("Fill out rows")
+        SwiftSpinner.show("Submitting...")
+        
+        guard !isEmpty else {
+            errorDelegate?.presentErrorOfType(.emptyForm)
+            SwiftSpinner.hide()
             return
         }
         
-        var json: [String: AnyObject] = ["name": name as AnyObject, "address": address as AnyObject]
+        var json: [String: AnyObject] = ["name": nameRow.textInput.text! as AnyObject, "address": addressRow.textInput.text! as AnyObject]
         
         var networkArray: [JSONDictionary] = []
         
@@ -166,13 +202,20 @@ class AddressForm: UIStackView {
                 }
             }
         }
-        
     }
+    
 }
 
 extension AddressForm: AddRowDelegate {
     
     internal func addNewRow() {
+        
+        guard let lastNetworkRow = subviews[subviews.count - 1] as? NetworkInputView, !lastNetworkRow.isEmpty else {
+            errorDelegate?.presentErrorOfType(.emptyNetwork)
+            return
+        }
+        
+        lastNetworkRow.addButton.isHidden = true
         let row = NetworkInputView()
         row.heightAnchor.constraint(equalToConstant: 50).isActive = true
         row.widthAnchor.constraint(equalToConstant: bounds.width).isActive = true

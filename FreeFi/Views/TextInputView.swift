@@ -10,6 +10,13 @@ import UIKit
 
 class TextInputView: UIView {
     
+    public var isEmpty: Bool {
+        guard let textInputText = textInput.text, !textInputText.isEmpty else {
+            return true
+        }
+        return false
+    }
+    
     var textInput: UITextField = {
         var input = UITextField()
         input.textAlignment = .right
