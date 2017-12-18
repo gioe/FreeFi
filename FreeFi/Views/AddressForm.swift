@@ -61,6 +61,7 @@ internal class AddressForm: UIStackView {
     public let basicSectionHeader: FormSectionHeader = {
         let row = FormSectionHeader()
         row.textLabel.text = "Basic Info"
+        row.textLabel.font = UIFont.boldSystemFont(ofSize: 15)
         row.heightAnchor.constraint(equalToConstant: 30).isActive = true
         return row
     }()
@@ -68,6 +69,7 @@ internal class AddressForm: UIStackView {
     public let networkSectionHeader: FormSectionHeader = {
         let row = FormSectionHeader()
         row.textLabel.text = "Network Info"
+        row.textLabel.font = UIFont.boldSystemFont(ofSize: 15)
         row.heightAnchor.constraint(equalToConstant: 30).isActive = true
         return row
     }()
@@ -75,8 +77,10 @@ internal class AddressForm: UIStackView {
     public let nameRow: TextInputView = {
         let row = TextInputView()
         row.textLabel.text = "Name"
+        row.textLabel.font = UIFont.boldSystemFont(ofSize: 20)
         row.textLabel.textColor = .white
         row.textInput.placeholder = "Enter Name Here"
+        row.textInput.textColor = .white
         row.heightAnchor.constraint(equalToConstant: 70).isActive = true
         return row
     }()
@@ -84,8 +88,10 @@ internal class AddressForm: UIStackView {
     public let addressRow: TextInputView = {
         let row = TextInputView()
         row.textLabel.text = "Address"
+        row.textLabel.font = UIFont.boldSystemFont(ofSize: 20)
         row.textLabel.textColor = .white
         row.textInput.placeholder = "Enter Address Here"
+        row.textInput.textColor = .white
         row.heightAnchor.constraint(equalToConstant: 70).isActive = true
         return row
     }()

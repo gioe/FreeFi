@@ -317,5 +317,3 @@ extension MapViewController: CalloutSelectionDelegate {
     }
     
 }
-
-
