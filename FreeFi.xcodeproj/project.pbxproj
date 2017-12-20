@@ -8,9 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		26CDC63CFBD748AA85870EE5 /* Pods_FreeFiUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D2D16C9436162E0FF9CFCEB /* Pods_FreeFiUITests.framework */; };
-		3D3795E21FD98A1200B6F0B0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3795E11FD98A1200B6F0B0 /* LoginViewController.swift */; };
 		3D3795E41FD98A2A00B6F0B0 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3795E31FD98A2A00B6F0B0 /* MapViewController.swift */; };
-		3D3795E61FD98A4F00B6F0B0 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3795E51FD98A4F00B6F0B0 /* SearchViewController.swift */; };
 		3D3795E81FD98A6900B6F0B0 /* SpotDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3795E71FD98A6900B6F0B0 /* SpotDetailViewController.swift */; };
 		3D3795EA1FD98A9E00B6F0B0 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3795E91FD98A9E00B6F0B0 /* Address.swift */; };
 		3D3795EC1FD98AAF00B6F0B0 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3795EB1FD98AAF00B6F0B0 /* Network.swift */; };
@@ -39,6 +37,8 @@
 		3D7FD2F81FD9898800A85646 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D7FD2F61FD9898800A85646 /* Main.storyboard */; };
 		3D7FD3081FD9898800A85646 /* FreeFiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7FD3071FD9898800A85646 /* FreeFiTests.swift */; };
 		3D7FD3131FD9898800A85646 /* FreeFiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7FD3121FD9898800A85646 /* FreeFiUITests.swift */; };
+		3DF4B1AB1FE8B65400B310EA /* DoubleTextInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF4B1AA1FE8B65400B310EA /* DoubleTextInputView.swift */; };
+		3DF4B1AD1FE9D9A200B310EA /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF4B1AC1FE9D9A200B310EA /* LocationManager.swift */; };
 		431A2D8AC925E586F6413E4F /* Pods_FreeFi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90D043FEDEA2143000CE1795 /* Pods_FreeFi.framework */; };
 		D9ED44AFEE0ACCA6199F590A /* Pods_FreeFiTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD3F34D47B5A8490B06ED453 /* Pods_FreeFiTests.framework */; };
 /* End PBXBuildFile section */
@@ -62,9 +62,7 @@
 
 /* Begin PBXFileReference section */
 		2EA11268637DC47F10D608CD /* Pods-FreeFiTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FreeFiTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FreeFiTests/Pods-FreeFiTests.release.xcconfig"; sourceTree = "<group>"; };
-		3D3795E11FD98A1200B6F0B0 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		3D3795E31FD98A2A00B6F0B0 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		3D3795E51FD98A4F00B6F0B0 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		3D3795E71FD98A6900B6F0B0 /* SpotDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotDetailViewController.swift; sourceTree = "<group>"; };
 		3D3795E91FD98A9E00B6F0B0 /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		3D3795EB1FD98AAF00B6F0B0 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
@@ -99,6 +97,8 @@
 		3D7FD30E1FD9898800A85646 /* FreeFiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FreeFiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D7FD3121FD9898800A85646 /* FreeFiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeFiUITests.swift; sourceTree = "<group>"; };
 		3D7FD3141FD9898800A85646 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3DF4B1AA1FE8B65400B310EA /* DoubleTextInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleTextInputView.swift; sourceTree = "<group>"; };
+		3DF4B1AC1FE9D9A200B310EA /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		3E62E95ACED0EF8774592737 /* Pods-FreeFi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FreeFi.release.xcconfig"; path = "Pods/Target Support Files/Pods-FreeFi/Pods-FreeFi.release.xcconfig"; sourceTree = "<group>"; };
 		5ACC1D43349000C79BA689E9 /* Pods-FreeFi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FreeFi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FreeFi/Pods-FreeFi.debug.xcconfig"; sourceTree = "<group>"; };
 		7D2D16C9436162E0FF9CFCEB /* Pods_FreeFiUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FreeFiUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -170,6 +170,7 @@
 				3D3795F91FD98B2500B6F0B0 /* FormSectionHeader.swift */,
 				3D3795FB1FD98B3700B6F0B0 /* NetworkInputView.swift */,
 				3D4F700F1FDB54DB00C7C936 /* PermissionView.swift */,
+				3DF4B1AA1FE8B65400B310EA /* DoubleTextInputView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -177,9 +178,7 @@
 		3D3795DF1FD989F200B6F0B0 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				3D3795E11FD98A1200B6F0B0 /* LoginViewController.swift */,
 				3D3795E31FD98A2A00B6F0B0 /* MapViewController.swift */,
-				3D3795E51FD98A4F00B6F0B0 /* SearchViewController.swift */,
 				3D3795E71FD98A6900B6F0B0 /* SpotDetailViewController.swift */,
 				3D4F700D1FDB2EA600C7C936 /* MainTabBarViewController.swift */,
 			);
@@ -194,6 +193,7 @@
 				3D3796061FD98B9D00B6F0B0 /* HTTPService.swift */,
 				3D37960A1FD98BC100B6F0B0 /* SpotsService.swift */,
 				3D3796031FD98B8800B6F0B0 /* AppNavigationManager.swift */,
+				3DF4B1AC1FE9D9A200B310EA /* LocationManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -443,11 +443,13 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-FreeFi/Pods-FreeFi-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftSpinner/SwiftSpinner.framework",
+				"${BUILT_PRODUCTS_DIR}/TextFieldEffects/TextFieldEffects.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftSpinner.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TextFieldEffects.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -577,17 +579,17 @@
 			files = (
 				3D4F70101FDB54DB00C7C936 /* PermissionView.swift in Sources */,
 				3D3795EE1FD98ABB00B6F0B0 /* Resource.swift in Sources */,
-				3D3795E61FD98A4F00B6F0B0 /* SearchViewController.swift in Sources */,
 				3D3795FE1FD98B4800B6F0B0 /* SpotTableViewCell.swift in Sources */,
-				3D3795E21FD98A1200B6F0B0 /* LoginViewController.swift in Sources */,
 				3D3795F61FD98B0400B6F0B0 /* AddressForm.swift in Sources */,
 				3D3796091FD98BB200B6F0B0 /* ServicesManager.swift in Sources */,
 				3D3795F81FD98B1500B6F0B0 /* AnnotationAccessoryView.swift in Sources */,
+				3DF4B1AB1FE8B65400B310EA /* DoubleTextInputView.swift in Sources */,
 				3D3795EC1FD98AAF00B6F0B0 /* Network.swift in Sources */,
 				3D3796071FD98B9D00B6F0B0 /* HTTPService.swift in Sources */,
 				3D4F700E1FDB2EA600C7C936 /* MainTabBarViewController.swift in Sources */,
 				3D3795FC1FD98B3700B6F0B0 /* NetworkInputView.swift in Sources */,
 				3D3796001FD98B5B00B6F0B0 /* TextInputView.swift in Sources */,
+				3DF4B1AD1FE9D9A200B310EA /* LocationManager.swift in Sources */,
 				3D3795F21FD98AE200B6F0B0 /* SpotsViewModel.swift in Sources */,
 				3D7FD2F51FD9898800A85646 /* ViewController.swift in Sources */,
 				3D3795E81FD98A6900B6F0B0 /* SpotDetailViewController.swift in Sources */,

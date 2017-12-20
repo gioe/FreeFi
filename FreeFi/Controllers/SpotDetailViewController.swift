@@ -55,7 +55,7 @@ class SpotDetailViewController: UIViewController {
     }
     
     var submissionDelegate: Submittable?
-    var addressForm: AddressForm?
+    public var addressForm: AddressForm?
     public var viewType: DetailViewType!
     
     public init(type: DetailViewType) {
@@ -139,32 +139,20 @@ extension SpotDetailViewController: UITextFieldDelegate {
         return true
     }
     
-    
 }
 
 extension SpotDetailViewController: FormSubmissionDelegate {
     
-    public func submitForm(form: JSONDictionary) {
+    public func submitSpot(spot: Spot) {
         
-        guard let viewType = viewType, let location = viewType.location else {
-            return
-        }
-        
-        var copy = form
-        copy["latitude"] = location.coordinate.latitude as AnyObject
-        copy["longitude"] =  location.coordinate.longitude as AnyObject
-        
-        if let spot = Spot(dictionary: copy) {
-            SpotsService.sharedInstance.postSpot(spot) { (response, error) in
-                guard error == nil else {
-                    return
-                }
-                SwiftSpinner.hide({
-                    self.submissionDelegate?.submittedForm()
-                })
+        SpotsService.sharedInstance.postSpot(spot) { (response, error) in
+            guard error == nil else {
+                return
             }
+            SwiftSpinner.hide({
+                self.submissionDelegate?.submittedForm()
+            })
         }
-        
     }
     
 }

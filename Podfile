@@ -8,6 +8,7 @@ target 'FreeFi' do
   pod 'SwiftSpinner'
   pod 'Alamofire', '~> 4.5'
   pod 'GooglePlaces'
+  pod 'TextFieldEffects'
 
   target 'FreeFiTests' do
     inherit! :search_paths

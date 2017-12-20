@@ -38,13 +38,10 @@ public class SpotsService {
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             
-            guard let responseData = data, let response = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: AnyObject]  else {
+            guard let responseData = data, let _ = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: AnyObject]  else {
                 completion(false, error)
                 return
             }
-            
-            print(response)
-            
             completion(true, nil)
             
             }.resume()

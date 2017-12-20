@@ -11,6 +11,8 @@ import CoreLocation
 
 public class SpotsViewModel: NSObject {
     
+    private var geocoder = CLGeocoder()
+
     override public init() {
         super.init()
     }
@@ -20,6 +22,17 @@ public class SpotsViewModel: NSObject {
             if let spots = spots {
                 completion(spots)
             }
+        }
+    }
+    
+    public func deriveZipcodeFrom(location: CLLocation, completion: @escaping (String?, Error?) -> Void) {
+        geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
+            guard error == nil, let placemarks = placemarks, let firstPlacemark = placemarks.first, let zipCode = firstPlacemark.postalCode else {
+                completion(nil, error)
+                return
+            }
+            
+            completion(zipCode, nil)
         }
     }
     

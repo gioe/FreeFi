@@ -20,12 +20,10 @@ class MapViewController: UIViewController {
     }
     
     fileprivate let identifier = "Pin"
-    fileprivate var currentZipCode: String = ""
     private let searchController = UISearchController(searchResultsController: nil)
     private var viewModel = SpotsViewModel()
     private var mapView: MKMapView!
     private var locationManager = CLLocationManager()
-    private var geocoder = CLGeocoder()
     private var mapPermission: Permission = .denied {
         didSet {
             switch mapPermission {
@@ -49,6 +47,12 @@ class MapViewController: UIViewController {
         }
     }
     
+    private var currentZipCode: String = "" {
+        didSet {
+            lookupSpotsAtZipcode(currentZipCode)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.setHidesBackButton(true, animated:true)
@@ -68,20 +72,11 @@ class MapViewController: UIViewController {
     }
     
     private func setupPermissionViews() {
-        
        view = PermissionView()
-
     }
         
     private func setupMapViews() {
-        
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search For Address"
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
-        
-        searchController.searchBar.delegate = self
-        
+    
         mapView = MKMapView()
         mapView.mapType = .standard
         mapView.delegate = self
@@ -93,7 +88,6 @@ class MapViewController: UIViewController {
         }
         
         setupConstraints()
-
     }
     
     func setupConstraints() {
@@ -138,22 +132,23 @@ class MapViewController: UIViewController {
             return
         }
         
-        geocoder.reverseGeocodeLocation(currentLocation) { (placemarks, error) in
-            guard error == nil, let placemarks = placemarks, let firstPlacemark = placemarks.first, let zipCode = firstPlacemark.postalCode else {
+        viewModel.deriveZipcodeFrom(location: currentLocation) { (zipCode, error) in
+            guard error == nil, let zipCode = zipCode else {
                 return
             }
-            
             self.currentZipCode = zipCode
-            
-            self.lookupSpotsAtZipcode(zipCode)
         }
-        
     }
     
     private func lookupSpotsAtZipcode(_ zipCode: String) {
-        self.viewModel.getNearbySpots(zipCode: zipCode) {
+        viewModel.getNearbySpots(zipCode: zipCode) {
             self.closestLocations = $0
         }
+    }
+    
+    public func moveMapToLocation(location: CLLocationCoordinate2D, zipCode: String) {
+        mapView.centerCoordinate = location
+        lookupSpotsAtZipcode(zipCode)
     }
     
 }
@@ -181,6 +176,7 @@ extension MapViewController: CLLocationManagerDelegate {
         guard !locations.isEmpty, let firstLocation = locations.first else { return }
         locationManager.stopUpdatingLocation()
         currentLocation = firstLocation
+        mapView.centerCoordinate = CLLocationCoordinate2D.init(latitude: firstLocation.coordinate.latitude, longitude: firstLocation.coordinate.longitude)
         
     }
     
@@ -269,35 +265,15 @@ extension MapViewController: GMSAutocompleteViewControllerDelegate {
     }
 }
 
-extension MapViewController: UISearchBarDelegate {
-    
-    public func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        let autocompleteController = GMSAutocompleteViewController()
-        autocompleteController.delegate = self
-        
-        // Set a filter to return only addresses.
-        let addressFilter = GMSAutocompleteFilter()
-        addressFilter.type = .address
-        autocompleteController.autocompleteFilter = addressFilter
-        
-        present(autocompleteController, animated: true, completion: nil)
-        
-    }
- 
-}
-
 extension MapViewController: Refreshable {
     
     public func refreshData() {
-    
         guard CLLocationManager.authorizationStatus() != .denied, !mapView.annotations.isEmpty else {
             return
         }
-        
+        locationManager.startUpdatingLocation()
         closestLocations.removeAll()
         mapView.removeAnnotations(mapView.annotations)
-        
-        self.lookupSpotsAtZipcode(currentZipCode)
     }
     
 }

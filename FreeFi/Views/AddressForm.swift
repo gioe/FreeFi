@@ -8,21 +8,24 @@
 
 import UIKit
 import SwiftSpinner
+import GooglePlaces
+import CoreLocation
 
 internal protocol FormErrorPresentable {
     func presentErrorOfType(_ type: AddressForm.FormError)
 }
 
 public protocol FormSubmissionDelegate {
-    func submitForm(form: JSONDictionary)
+    func submitSpot(spot: Spot)
 }
 
 internal class AddressForm: UIStackView {
     
-    internal enum FormError {
+    internal enum FormError: Error {
         case emptyNetwork
         case emptyForm
-        
+        case spotCreation
+
         var errorMessage: String {
             switch self {
             case .emptyForm:
@@ -35,9 +38,11 @@ internal class AddressForm: UIStackView {
     
     public var submissionDelegate: FormSubmissionDelegate?
     public var errorDelegate: FormErrorPresentable?
+    private var constructedAddress = ""
+    lazy var geocoder = CLGeocoder()
 
     public var isEmpty: Bool {
-        guard !nameRow.isEmpty, !addressRow.isEmpty, !networkRows.isEmpty else {
+        guard !nameRow.isEmpty, !addressRow.isEmpty, !stateRow.isEmpty, !networkRows.isEmpty else {
             return true
         }
         return false
@@ -76,22 +81,20 @@ internal class AddressForm: UIStackView {
     
     public let nameRow: TextInputView = {
         let row = TextInputView()
-        row.textLabel.text = "Name"
-        row.textLabel.font = UIFont.boldSystemFont(ofSize: 20)
-        row.textLabel.textColor = .white
-        row.textInput.placeholder = "Enter Name Here"
-        row.textInput.textColor = .white
+        row.textInput.placeholder = "Name"
         row.heightAnchor.constraint(equalToConstant: 70).isActive = true
         return row
     }()
     
     public let addressRow: TextInputView = {
         let row = TextInputView()
-        row.textLabel.text = "Address"
-        row.textLabel.font = UIFont.boldSystemFont(ofSize: 20)
-        row.textLabel.textColor = .white
-        row.textInput.placeholder = "Enter Address Here"
-        row.textInput.textColor = .white
+        row.textInput.placeholder = "Address"
+        row.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        return row
+    }()
+    
+    public let stateRow: DoubleTextInputView = {
+        let row = DoubleTextInputView()
         row.heightAnchor.constraint(equalToConstant: 70).isActive = true
         return row
     }()
@@ -131,6 +134,59 @@ internal class AddressForm: UIStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func createSpot(completion: @escaping (_ spot: Spot?, _ error: Error?) -> Void) {
+        
+        guard let street = addressRow.textInput.text else { return }
+        guard let city = stateRow.cityInput.text else { return }
+        guard let state = stateRow.stateInput.text else { return }
+
+        // Create Address String
+        let address = "\(street), \(city), \(state)"
+        
+        geocoder.geocodeAddressString(address) { (placemarks, error) in
+            // Process Response
+            guard error == nil, let spot = self.processResponse(withPlacemarks: placemarks) else {
+                completion(nil, error)
+                return
+            }
+            completion(spot, nil)
+        }
+    }
+    
+    private func processResponse(withPlacemarks placemarks: [CLPlacemark]?) -> Spot? {
+       
+        guard let placemarks = placemarks, let firstPlace = placemarks.first, let name = nameRow.textInput.text, let number = firstPlace.subThoroughfare, let street = firstPlace.thoroughfare, let city = firstPlace.locality, let state = firstPlace.administrativeArea, let zip = firstPlace.postalCode, let zipInt = Int(zip), let latitude = firstPlace.location?.coordinate.latitude, let longitude = firstPlace.location?.coordinate.longitude else { return nil }
+        
+        let address = number + " " + street
+        
+        return Spot(name: name, address: address, city: city, state: state, zipCode: zipInt, latitude: latitude, longitude: longitude)
+    }
+    
+    public func injectPlaceIntoForm(place: GMSPlace) {
+        if let addressLines = place.addressComponents {
+            // Populate all of the address fields we can find.
+            for field in addressLines {
+                switch field.type {
+                case kGMSPlaceTypeStreetNumber:
+                    constructedAddress += field.name
+                case kGMSPlaceTypeRoute:
+                    constructedAddress += " " + field.name
+                case kGMSPlaceTypeLocality:
+                    stateRow.cityInput.text = field.name
+                case kGMSPlaceTypeStreetAddress:
+                    addressRow.textInput.text = field.name
+                case kGMSPlaceTypeAdministrativeAreaLevel1:
+                    stateRow.stateInput.text = field.name
+                default:
+                    print("Type: \(field.type), Name: \(field.name)")
+                }
+            }
+            if addressRow.textInput.text == "" {
+                addressRow.textInput.text = constructedAddress
+            }
+        }
+    }
+    
     @objc func submitForm() {
         
         SwiftSpinner.show("Submitting...")
@@ -141,20 +197,26 @@ internal class AddressForm: UIStackView {
             return
         }
         
-        var json: [String: AnyObject] = ["name": nameRow.textInput.text! as AnyObject, "address": addressRow.textInput.text! as AnyObject]
+        createSpot { (spot, error) in
         
-        var networkArray: [JSONDictionary] = []
-        
-        self.subviews.forEach{
-            if let networkView = $0 as? NetworkInputView, let networkName = networkView.networkNameInput.text, let password =  networkView.passwordInput.text, !networkName.isEmpty {
-                networkArray.append(["name": networkName as AnyObject, "password": password as AnyObject])
+            guard error == nil, let spot = spot else {
+                return
             }
+            
+            var spotCopy = spot
+            var networkArray: [Network] = []
+            
+            self.subviews.forEach{
+                if let networkView = $0 as? NetworkInputView, let networkName = networkView.networkNameInput.text, let password =  networkView.passwordInput.text, !networkName.isEmpty, !password.isEmpty {
+                    let network = Network(name: networkName, password: password)
+                    networkArray.append(network)
+                }
+            }
+            
+            spotCopy.networks = networkArray
+            
+            self.submissionDelegate?.submitSpot(spot: spotCopy)
         }
-        
-        json["networks"] = networkArray as AnyObject
-        
-        submissionDelegate?.submitForm(form: [:] as JSONDictionary)
-        
     }
     
     func configureView() {
@@ -174,16 +236,17 @@ internal class AddressForm: UIStackView {
         insertArrangedSubview(basicSectionHeader, at: 0)
         insertArrangedSubview(nameRow, at: 1)
         insertArrangedSubview(addressRow, at: 2)
+        insertArrangedSubview(stateRow, at: 3)
+
+        insertArrangedSubview(networkSectionHeader, at: 4)
         
-        insertArrangedSubview(networkSectionHeader, at: 3)
-        
-        insertArrangedSubview(networkRow, at: 4)
-        insertArrangedSubview(submissionButton, at: 5)
+        insertArrangedSubview(networkRow, at: 5)
+        insertArrangedSubview(submissionButton, at: 6)
         
     }
     
     override func layoutSubviews() {
-        [basicSectionHeader, nameRow, addressRow, networkRow, networkSectionHeader].forEach{
+        [basicSectionHeader, nameRow, addressRow, stateRow, networkRow, networkSectionHeader].forEach{
             $0.widthAnchor.constraint(equalToConstant: bounds.width).isActive = true
             $0.setNeedsLayout()
             $0.layoutIfNeeded()

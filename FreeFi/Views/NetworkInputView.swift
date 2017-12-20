@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TextFieldEffects
 
 protocol AddRowDelegate {
     func addNewRow()
@@ -23,18 +24,22 @@ class NetworkInputView: UIView {
         return false
     }
     
-    var networkNameInput: UITextField = {
-        var input = UITextField()
+    var networkNameInput: HoshiTextField = {
+        var input = HoshiTextField()
+        input.borderActiveColor = .white
+        input.borderInactiveColor = .black
+        input.placeholder = "Network Name"
         input.textAlignment = .left
-        input.placeholder = "Enter Name"
         input.translatesAutoresizingMaskIntoConstraints = false
         return input
     }()
     
-    var passwordInput: UITextField = {
-        var input = UITextField()
+    var passwordInput: HoshiTextField = {
+        var input = HoshiTextField()
+        input.borderActiveColor = .white
+        input.borderInactiveColor = .black
+        input.placeholder = "Password"
         input.textAlignment = .left
-        input.placeholder = "Enter Password"
         input.translatesAutoresizingMaskIntoConstraints = false
         return input
     }()
