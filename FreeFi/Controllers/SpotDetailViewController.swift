@@ -72,6 +72,12 @@ class SpotDetailViewController: UIViewController {
         }
     }
     
+    private var scrollView: UIScrollView = {
+        var view = UIScrollView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
     var submissionDelegate: Submittable?
     public var addressForm = AddressForm(viewType: .empty)
     public var viewType: DetailViewType!
@@ -90,11 +96,11 @@ class SpotDetailViewController: UIViewController {
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         navigationController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
         setupViews()
         setupConstraints()
     }
@@ -107,17 +113,31 @@ class SpotDetailViewController: UIViewController {
         
         addressForm.translatesAutoresizingMaskIntoConstraints = false
         
-        [addressForm].forEach{
+        scrollView.addSubview(addressForm)
+        
+        [scrollView].forEach{
             view.addSubview($0)
         }
         
     }
     
     func setupConstraints() {
-        addressForm.topAnchor.constraint(equalTo: view.topAnchor, constant: 64).isActive = true
-        addressForm.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        addressForm.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        addressForm.heightAnchor.constraint(equalToConstant: addressForm.intrinsicContentSize.height).isActive = true
+        
+        scrollView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        scrollView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+
+        addressForm.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
+        addressForm.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+        addressForm.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
+        addressForm.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+        addressForm.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+    }
+    
+    @objc func keyboardWillShow() {
+        let yCoordinate = addressForm.submissionButton.frame.origin.y - 140
+        scrollView.contentOffset = CGPoint(x: 0.0, y: yCoordinate)
     }
     
 }

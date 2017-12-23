@@ -140,9 +140,7 @@ extension MainTabBarViewController: UITabBarControllerDelegate {
         case let spotVc as SpotDetailViewController:
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "pin"), style: .done, target: self, action: #selector(getCurrentAddress))
             navigationItem.rightBarButtonItem = nil
-            if let viewControllers = viewControllers, let mapVc = viewControllers[0] as? MapViewController {
-                spotVc.viewType = mapVc.generateCurrentSpot()
-            }
+            spotVc.addressForm.refreshForm()
         case let mapVc as MapViewController:
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "search"), style: .done, target: self, action: #selector(pushSearch))
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "refresh"), style: .done, target: self, action: #selector(refreshData))

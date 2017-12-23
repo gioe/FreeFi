@@ -96,7 +96,7 @@ internal class AddressForm: UIStackView {
         return row
     }()
     
-    private let submissionButton: UIButton = {
+    public let submissionButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .white
         button.setTitle("Add Spot", for: .normal)
@@ -207,7 +207,7 @@ internal class AddressForm: UIStackView {
             
             var spotCopy = spot
             var networkArray: [Network] = []
-            
+        
             self.subviews.forEach{
                 if let networkView = $0 as? NetworkInputView, let networkName = networkView.networkNameInput.text, let password =  networkView.passwordInput.text, !networkName.isEmpty, !password.isEmpty {
                     let network = Network(name: networkName, password: password)
@@ -270,7 +270,6 @@ internal class AddressForm: UIStackView {
     }
     
     func setupNetworks() {
-        
         guard 
             let networks = viewType.networks else {
             return
@@ -287,6 +286,20 @@ internal class AddressForm: UIStackView {
                     addedRow.setData(network: element)
                 }
             }
+        }
+    }
+    
+    public func refreshForm() {
+        nameRow.textInput.text = nil
+        addressRow.textInput.text = nil
+        stateRow.stateInput.text = nil
+        stateRow.cityInput.text = nil
+        networkRows.forEach {
+            $0.networkNameInput.text = nil
+            $0.passwordInput.text = nil
+        }
+        while arrangedSubviews.count > 7 {
+            removeArrangedSubview(arrangedSubviews[5])
         }
     }
     

@@ -100,17 +100,7 @@ class MapViewController: UIViewController {
            break
         }
     }
-    
-    public func generateCurrentSpot() -> SpotDetailViewController.DetailViewType {
-        
-        guard let location = currentLocation else {
-            return .empty
-        }
-        
-        return .new(location: location)
-    
-    }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
