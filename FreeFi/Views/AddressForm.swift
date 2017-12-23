@@ -89,10 +89,9 @@ internal class AddressForm: UIStackView {
         return row
     }()
     
-    public lazy var networkRow: NetworkInputView = {
+    public var networkRow: NetworkInputView = {
         let row = NetworkInputView()
         row.heightAnchor.constraint(equalToConstant: 70).isActive = true
-        row.addDelegate = self
         return row
     }()
     
@@ -239,6 +238,8 @@ internal class AddressForm: UIStackView {
             stateRow.cityInput.text = city
             stateRow.stateInput.text = state
         }
+        
+        networkRow.addDelegate = self
       
         setupAddButton()
         
@@ -295,11 +296,12 @@ internal class AddressForm: UIStackView {
         stateRow.stateInput.text = nil
         stateRow.cityInput.text = nil
         networkRows.forEach {
+            $0.addButton.isHidden = false
             $0.networkNameInput.text = nil
             $0.passwordInput.text = nil
         }
         while arrangedSubviews.count > 7 {
-            removeArrangedSubview(arrangedSubviews[5])
+            arrangedSubviews[5].removeFromSuperview()
         }
     }
     
@@ -308,19 +310,22 @@ internal class AddressForm: UIStackView {
 extension AddressForm: AddRowDelegate {
     
     internal func addNewRow() {
-        guard let lastNetworkRow = arrangedSubviews[arrangedSubviews.count - 2] as? NetworkInputView, !lastNetworkRow.isEmpty else {
+        guard let lastNetworkRow = arrangedSubviews[5] as? NetworkInputView, !lastNetworkRow.isEmpty else {
             errorDelegate?.presentErrorOfType(.emptyNetwork)
             return
         }
         
         lastNetworkRow.addButton.isHidden = true
+        lastNetworkRow.passwordInput.resignFirstResponder()
+        lastNetworkRow.networkNameInput.resignFirstResponder()
         let row = NetworkInputView()
         row.networkNameInput.delegate = textDelegate
         row.passwordInput.delegate = textDelegate
         row.heightAnchor.constraint(equalToConstant: 70).isActive = true
         row.widthAnchor.constraint(equalToConstant: bounds.width).isActive = true
         row.addDelegate = self
-        insertArrangedSubview(row, at: self.subviews.count - 1)
+        self.networkRow = row
+        insertArrangedSubview(row, at: 5)
     }
 }
 

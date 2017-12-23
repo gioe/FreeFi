@@ -101,6 +101,7 @@ class SpotDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
         setupViews()
         setupConstraints()
     }
@@ -136,8 +137,14 @@ class SpotDetailViewController: UIViewController {
     }
     
     @objc func keyboardWillShow() {
-        let yCoordinate = addressForm.submissionButton.frame.origin.y - 140
-        scrollView.contentOffset = CGPoint(x: 0.0, y: yCoordinate)
+        if addressForm.networkRow.networkNameInput.isFirstResponder || addressForm.networkRow.passwordInput.isFirstResponder {
+            let yCoordinate = addressForm.stateRow.frame.origin.y
+            scrollView.contentOffset = CGPoint(x: 0.0, y: yCoordinate)
+        }
+    }
+    
+    @objc func keyboardWillHide() {
+        scrollView.contentOffset = CGPoint(x: 0.0, y: -64.0)
     }
     
 }
