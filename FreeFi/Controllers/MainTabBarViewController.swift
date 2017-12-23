@@ -58,6 +58,7 @@ class MainTabBarViewController: UITabBarController {
         mapView.tabBarItem = UITabBarItem(title: "Current Spot", image: #imageLiteral(resourceName: "pin"), selectedImage: #imageLiteral(resourceName: "pin"))
         
         let spotDetailView = SpotDetailViewController(type: .empty)
+        spotDetailView.submissionDelegate = self
         spotDetailView.tabBarItem = UITabBarItem(title: "Add Spot", image: #imageLiteral(resourceName: "add"), selectedImage: #imageLiteral(resourceName: "add"))
         
         viewControllers = [mapView, spotDetailView]
@@ -74,7 +75,7 @@ class MainTabBarViewController: UITabBarController {
                 return
             }
             if let viewControllers = self.viewControllers, let spotVc = viewControllers[1] as? SpotDetailViewController {
-                spotVc.addressForm?.injectPlaceIntoForm(place: place)
+                spotVc.addressForm.injectPlaceIntoForm(place: place)
             }
         }
         

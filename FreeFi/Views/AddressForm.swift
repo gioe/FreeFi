@@ -52,17 +52,7 @@ internal class AddressForm: UIStackView {
         return subviews.filter{$0 is NetworkInputView}.map{$0 as! NetworkInputView}
     }
     
-    public var viewType: SpotDetailViewController.DetailViewType? = nil {
-        didSet {
-            switch viewType {
-            case .existing( _)?:
-                submissionButton.setTitle("Update Spot", for: .normal)
-            default:
-                submissionButton.setTitle("Add Spot", for: .normal)
-            }
-        }
-    }
-    
+    public var viewType: SpotDetailViewController.DetailViewType = .empty
     public let basicSectionHeader: FormSectionHeader = {
         let row = FormSectionHeader()
         row.textLabel.text = "Basic Info"
@@ -120,6 +110,17 @@ internal class AddressForm: UIStackView {
         return button
     }()
     
+    public var textDelegate: UITextFieldDelegate? {
+        didSet {
+            nameRow.textInput.delegate = textDelegate
+            addressRow.textInput.delegate = textDelegate
+            stateRow.cityInput.delegate = textDelegate
+            stateRow.stateInput.delegate = textDelegate
+            networkRow.networkNameInput.delegate = textDelegate
+            networkRow.passwordInput.delegate = textDelegate
+        }
+    }
+    
     public convenience init(viewType: SpotDetailViewController.DetailViewType) {
         self.init(frame: .zero)
         self.viewType = viewType
@@ -146,7 +147,7 @@ internal class AddressForm: UIStackView {
         geocoder.geocodeAddressString(address) { (placemarks, error) in
             // Process Response
             guard error == nil, let spot = self.processResponse(withPlacemarks: placemarks) else {
-                completion(nil, error)
+                completion(nil, FormError.spotCreation)
                 return
             }
             completion(spot, nil)
@@ -200,6 +201,7 @@ internal class AddressForm: UIStackView {
         createSpot { (spot, error) in
         
             guard error == nil, let spot = spot else {
+                self.errorDelegate?.presentErrorOfType(.spotCreation)
                 return
             }
             
@@ -219,12 +221,26 @@ internal class AddressForm: UIStackView {
         }
     }
     
+    func setupAddButton() {
+    
+        switch viewType {
+        case .existing( _):
+            submissionButton.setTitle("Update Spot", for: .normal)
+        default:
+            submissionButton.setTitle("Add Spot", for: .normal)
+        }
+    }
+    
     func configureView() {
         
-        if let viewType = viewType, let address = viewType.address, let name = viewType.name {
+        if let address = viewType.address, let name = viewType.name, let city = viewType.city, let state = viewType.state {
             nameRow.textInput.text = name
             addressRow.textInput.text = address
+            stateRow.cityInput.text = city
+            stateRow.stateInput.text = state
         }
+      
+        setupAddButton()
         
         setupNetworks()
         
@@ -255,7 +271,8 @@ internal class AddressForm: UIStackView {
     
     func setupNetworks() {
         
-        guard let viewType = viewType, let networks = viewType.networks else {
+        guard 
+            let networks = viewType.networks else {
             return
         }
         
@@ -266,7 +283,7 @@ internal class AddressForm: UIStackView {
                 networkRow.setData(network: element)
             default:
                 addNewRow()
-                if let addedRow = subviews[subviews.count - 1] as? NetworkInputView {
+                if let addedRow = arrangedSubviews[arrangedSubviews.count - 1] as? NetworkInputView {
                     addedRow.setData(network: element)
                 }
             }
@@ -278,19 +295,19 @@ internal class AddressForm: UIStackView {
 extension AddressForm: AddRowDelegate {
     
     internal func addNewRow() {
-        
-        guard let lastNetworkRow = subviews[subviews.count - 1] as? NetworkInputView, !lastNetworkRow.isEmpty else {
+        guard let lastNetworkRow = arrangedSubviews[arrangedSubviews.count - 2] as? NetworkInputView, !lastNetworkRow.isEmpty else {
             errorDelegate?.presentErrorOfType(.emptyNetwork)
             return
         }
         
         lastNetworkRow.addButton.isHidden = true
         let row = NetworkInputView()
-        row.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        row.networkNameInput.delegate = textDelegate
+        row.passwordInput.delegate = textDelegate
+        row.heightAnchor.constraint(equalToConstant: 70).isActive = true
         row.widthAnchor.constraint(equalToConstant: bounds.width).isActive = true
         row.addDelegate = self
         insertArrangedSubview(row, at: self.subviews.count - 1)
     }
-    
 }
 

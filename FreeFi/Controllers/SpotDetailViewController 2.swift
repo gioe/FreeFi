@@ -35,24 +35,6 @@ class SpotDetailViewController: UIViewController {
             }
         }
         
-        var city: String? {
-            switch self {
-            case .existing(let spot):
-                return spot.city
-            default:
-                return nil
-            }
-        }
-        
-        var state: String? {
-            switch self {
-            case .existing(let spot):
-                return spot.state
-            default:
-                return nil
-            }
-        }
-        
         var location: CLLocation? {
             switch self {
             case .new(let location):
@@ -73,7 +55,7 @@ class SpotDetailViewController: UIViewController {
     }
     
     var submissionDelegate: Submittable?
-    public var addressForm = AddressForm(viewType: .empty)
+    var addressForm: AddressForm?
     public var viewType: DetailViewType!
     
     public init(type: DetailViewType) {
@@ -101,7 +83,13 @@ class SpotDetailViewController: UIViewController {
     
     func setupViews() {
     
-        addressForm.textDelegate = self
+        guard let addressForm = addressForm else {
+            return
+        }
+        
+        addressForm.nameRow.textInput.delegate = self
+        addressForm.addressRow.textInput.delegate = self
+        
         addressForm.submissionDelegate = self
         addressForm.errorDelegate = self
         
@@ -114,7 +102,12 @@ class SpotDetailViewController: UIViewController {
     }
     
     func setupConstraints() {
-        addressForm.topAnchor.constraint(equalTo: view.topAnchor, constant: 64).isActive = true
+        
+        guard let addressForm = addressForm else {
+            return
+        }
+        
+        addressForm.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
         addressForm.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         addressForm.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         addressForm.heightAnchor.constraint(equalToConstant: addressForm.intrinsicContentSize.height).isActive = true
@@ -146,20 +139,32 @@ extension SpotDetailViewController: UITextFieldDelegate {
         return true
     }
     
+    
 }
 
 extension SpotDetailViewController: FormSubmissionDelegate {
     
-    public func submitSpot(spot: Spot) {
+    public func submitForm(form: JSONDictionary) {
         
-        SpotsService.sharedInstance.postSpot(spot) { (response, error) in
-            guard error == nil else {
-                return
-            }
-            SwiftSpinner.hide({
-                self.submissionDelegate?.submittedForm()
-            })
+        guard let viewType = viewType, let location = viewType.location else {
+            return
         }
+        
+        var copy = form
+        copy["latitude"] = location.coordinate.latitude as AnyObject
+        copy["longitude"] =  location.coordinate.longitude as AnyObject
+        
+        if let spot = Spot(dictionary: copy) {
+            SpotsService.sharedInstance.postSpot(spot) { (response, error) in
+                guard error == nil else {
+                    return
+                }
+                SwiftSpinner.hide({
+                    self.submissionDelegate?.submittedForm()
+                })
+            }
+        }
+        
     }
     
 }

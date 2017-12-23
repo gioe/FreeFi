@@ -38,10 +38,13 @@ public class SpotsService {
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             
-            guard let responseData = data, let _ = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: AnyObject]  else {
+            guard let responseData = data, let response = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: AnyObject]  else {
                 completion(false, error)
                 return
             }
+            
+            print(response)
+            
             completion(true, nil)
             
             }.resume()
@@ -49,7 +52,7 @@ public class SpotsService {
     
     public func getNearbySpots(_ zipCode: String, completion: @escaping (_ spot: [Spot]?, _ response: HTTPURLResponse?, _ error: Error?) -> Void) {
         
-        var request = URLRequest(url: getSpotsUrl(zipCode: zipCode)!)
+        var request = URLRequest(url: getSpotsUrl(zipCode: "10009")!)
         request.httpMethod = "GET"
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
@@ -64,6 +67,9 @@ public class SpotsService {
                     let spotsData = jsonArray.flatMap{ Spot(dictionary: $0) }
                     completion(spotsData, nil, nil)
                 }
+                
+                completion(nil, nil, nil)
+                
             } catch let jsonError {
                 print(jsonError)
             }

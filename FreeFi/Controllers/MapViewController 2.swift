@@ -20,10 +20,12 @@ class MapViewController: UIViewController {
     }
     
     fileprivate let identifier = "Pin"
+    fileprivate var currentZipCode: String = ""
     private let searchController = UISearchController(searchResultsController: nil)
     private var viewModel = SpotsViewModel()
     private var mapView: MKMapView!
     private var locationManager = CLLocationManager()
+    private var geocoder = CLGeocoder()
     private var mapPermission: Permission = .denied {
         didSet {
             switch mapPermission {
@@ -47,12 +49,6 @@ class MapViewController: UIViewController {
         }
     }
     
-    private var currentZipCode: String = "" {
-        didSet {
-            lookupSpotsAtZipcode(currentZipCode)
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.setHidesBackButton(true, animated:true)
@@ -72,14 +68,24 @@ class MapViewController: UIViewController {
     }
     
     private func setupPermissionViews() {
+        
        view = PermissionView()
+
     }
         
     private func setupMapViews() {
-    
+        
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search For Address"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+        
+        searchController.searchBar.delegate = self
+        
         mapView = MKMapView()
         mapView.mapType = .standard
         mapView.delegate = self
+        mapView.showsUserLocation = true
         mapView.translatesAutoresizingMaskIntoConstraints = false
         
         [mapView].forEach{
@@ -87,6 +93,7 @@ class MapViewController: UIViewController {
         }
         
         setupConstraints()
+
     }
     
     func setupConstraints() {
@@ -121,11 +128,8 @@ class MapViewController: UIViewController {
             let annotation = MKPointAnnotation()
             annotation.subtitle = $0.name
             annotation.coordinate = CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)
-            let key = String(describing: annotation.coordinate)
-            AnnotationRegistry.shared.registryDict[key] = $0
-            DispatchQueue.main.async {
-                self.mapView.addAnnotation(annotation) //Yes!! This method adds the annotations
-            }
+            AnnotationRegistry.shared.registryDict[$0.name ?? ""] = $0
+            mapView.addAnnotation(annotation)
         }
     }
     
@@ -134,25 +138,22 @@ class MapViewController: UIViewController {
             return
         }
         
-        viewModel.deriveZipcodeFrom(location: currentLocation) { (zipCode, error) in
-            guard error == nil, let zipCode = zipCode else {
+        geocoder.reverseGeocodeLocation(currentLocation) { (placemarks, error) in
+            guard error == nil, let placemarks = placemarks, let firstPlacemark = placemarks.first, let zipCode = firstPlacemark.postalCode else {
                 return
             }
+            
             self.currentZipCode = zipCode
+            
+            self.lookupSpotsAtZipcode(zipCode)
         }
+        
     }
     
     private func lookupSpotsAtZipcode(_ zipCode: String) {
-        viewModel.getNearbySpots(zipCode: zipCode) {
+        self.viewModel.getNearbySpots(zipCode: zipCode) {
             self.closestLocations = $0
         }
-    }
-    
-    public func moveMapToLocation(location: CLLocationCoordinate2D, zipCode: String) {
-        let span = MKCoordinateSpanMake(0.005, 0.005)
-        let region = MKCoordinateRegion(center: location, span: span)
-        mapView.setRegion(region, animated: true)
-        lookupSpotsAtZipcode(zipCode)
     }
     
 }
@@ -180,11 +181,6 @@ extension MapViewController: CLLocationManagerDelegate {
         guard !locations.isEmpty, let firstLocation = locations.first else { return }
         locationManager.stopUpdatingLocation()
         currentLocation = firstLocation
-        let center = CLLocationCoordinate2D.init(latitude: firstLocation.coordinate.latitude, longitude: firstLocation.coordinate.longitude)
-        let span = MKCoordinateSpanMake(0.005, 0.005)
-        let region = MKCoordinateRegion(center:center, span: span)
-        mapView.setRegion(region, animated: true)
-        SwiftSpinner.hide()
         
     }
     
@@ -199,6 +195,8 @@ extension MapViewController: MKMapViewDelegate {
         guard !views.isEmpty else {
             return
         }
+        
+        SwiftSpinner.hide()
     }
     
     public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -220,7 +218,12 @@ extension MapViewController: MKMapViewDelegate {
         
         return pin
     }
-
+    
+    public func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+        let span = MKCoordinateSpanMake(0.005, 0.005)
+        let region = MKCoordinateRegion(center: mapView.userLocation.coordinate, span: span)
+        mapView.setRegion(region, animated: true)
+    }
 }
 
 extension MapViewController: GMSAutocompleteViewControllerDelegate {
@@ -266,15 +269,35 @@ extension MapViewController: GMSAutocompleteViewControllerDelegate {
     }
 }
 
+extension MapViewController: UISearchBarDelegate {
+    
+    public func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        let autocompleteController = GMSAutocompleteViewController()
+        autocompleteController.delegate = self
+        
+        // Set a filter to return only addresses.
+        let addressFilter = GMSAutocompleteFilter()
+        addressFilter.type = .address
+        autocompleteController.autocompleteFilter = addressFilter
+        
+        present(autocompleteController, animated: true, completion: nil)
+        
+    }
+ 
+}
+
 extension MapViewController: Refreshable {
     
     public func refreshData() {
+    
         guard CLLocationManager.authorizationStatus() != .denied, !mapView.annotations.isEmpty else {
             return
         }
-        locationManager.startUpdatingLocation()
+        
         closestLocations.removeAll()
         mapView.removeAnnotations(mapView.annotations)
+        
+        self.lookupSpotsAtZipcode(currentZipCode)
     }
     
 }
@@ -282,14 +305,13 @@ extension MapViewController: Refreshable {
 extension MapViewController: CalloutSelectionDelegate {
     
     func clickedCallout(for annotation: MKAnnotation) {
-      
-        let coordinateString = String(describing: annotation.coordinate)
-      
-        guard let spot = AnnotationRegistry.shared.registryDict[coordinateString] else {
+        
+        guard let subtitle = annotation.subtitle, let subtitleText = subtitle,  let spot = AnnotationRegistry.shared.registryDict[subtitleText] else {
             return
         }
-      
+        
         let currentSpot = SpotDetailViewController(type: .existing(spot: spot))
+        currentSpot.view.backgroundColor = .white
         navigationController?.pushViewController(currentSpot, animated: true)
         mapView.deselectAnnotation(annotation, animated: true)
     }
