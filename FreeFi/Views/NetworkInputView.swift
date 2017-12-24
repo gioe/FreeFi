@@ -11,6 +11,7 @@ import TextFieldEffects
 
 protocol AddRowDelegate {
     func addNewRow()
+    func removeRow(row: NetworkInputView)
 }
 
 class NetworkInputView: UIView {
@@ -44,6 +45,16 @@ class NetworkInputView: UIView {
         return input
     }()
     
+    var deleteButton: UIButton = {
+        var button = UIButton()
+        button.setBackgroundImage(UIImage(named: "subtract"), for: .normal)
+        button.addTarget(self, action: #selector(removeNetwork), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 10
+        return button
+    }()
+    
     var addButton: UIButton = {
         var button = UIButton()
         button.setBackgroundImage(UIImage(named: "plus"), for: .normal)
@@ -65,7 +76,7 @@ class NetworkInputView: UIView {
     
     func configureView() {
         
-        [networkNameInput, passwordInput, addButton].forEach{
+        [networkNameInput, passwordInput, addButton, deleteButton].forEach{
             addSubview($0)
         }
     }
@@ -82,10 +93,15 @@ class NetworkInputView: UIView {
         networkNameInput.widthAnchor.constraint(equalToConstant: (bounds.width / 2) - 50).isActive = true
         
         passwordInput.leftAnchor.constraint(equalTo: networkNameInput.rightAnchor).isActive = true
-        passwordInput.rightAnchor.constraint(equalTo: rightAnchor, constant: -5).isActive = true
+        passwordInput.rightAnchor.constraint(equalTo: deleteButton.leftAnchor, constant: -5).isActive = true
         passwordInput.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
         passwordInput.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10).isActive = true
         passwordInput.centerYAnchor.constraint(equalTo: networkNameInput.centerYAnchor).isActive = true
+        
+        deleteButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
+        deleteButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        deleteButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        deleteButton.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         
     }
     
@@ -96,6 +112,11 @@ class NetworkInputView: UIView {
     
     @objc func addNetwork() {
         addDelegate?.addNewRow()
+    }
+
+    
+    @objc func removeNetwork() {
+        addDelegate?.removeRow(row: self)
     }
 
 }

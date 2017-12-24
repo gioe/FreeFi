@@ -291,6 +291,7 @@ internal class AddressForm: UIStackView {
     }
     
     public func refreshForm() {
+        constructedAddress = ""
         nameRow.textInput.text = nil
         addressRow.textInput.text = nil
         stateRow.stateInput.text = nil
@@ -327,5 +328,13 @@ extension AddressForm: AddRowDelegate {
         self.networkRow = row
         insertArrangedSubview(row, at: 5)
     }
+    
+    internal func removeRow(row: NetworkInputView) {
+        guard arrangedSubviews[5] != row else {
+            return
+        }
+        row.removeFromSuperview()
+    }
+
 }
 
