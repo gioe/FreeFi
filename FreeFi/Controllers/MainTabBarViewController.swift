@@ -128,7 +128,7 @@ extension MainTabBarViewController: GMSAutocompleteViewControllerDelegate {
 extension MainTabBarViewController: Submittable {
     public func submittedForm() {
         if let viewControllers = viewControllers, let mapVc = viewControllers[0] as? MapViewController {
-           self.selectedViewController = mapVc
+           self.tabBarController(self, didSelect: mapVc)
         }
     }
 }
