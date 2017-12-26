@@ -17,9 +17,14 @@ public protocol Refreshable {
     func refreshData()
 }
 
+public protocol Editable {
+    func editData()
+}
+
 class MainTabBarViewController: UITabBarController {
     
     public var refreshDelegate: Refreshable?
+    public var editDelegate: Editable?
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -38,11 +43,8 @@ class MainTabBarViewController: UITabBarController {
     
     func setupView () {
         navigationItem.title = "FreeFi"
-        
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "refresh"), style: .done, target: self, action: #selector(refreshData))
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "search"), style: .done, target: self, action: #selector(pushSearch))
-
         delegate = self
     }
 
@@ -60,6 +62,7 @@ class MainTabBarViewController: UITabBarController {
         let spotDetailView = SpotDetailViewController(type: .empty)
         spotDetailView.submissionDelegate = self
         spotDetailView.tabBarItem = UITabBarItem(title: "Add Spot", image: #imageLiteral(resourceName: "add"), selectedImage: #imageLiteral(resourceName: "add"))
+        editDelegate = spotDetailView
         
         viewControllers = [mapView, spotDetailView]
     }
@@ -68,8 +71,11 @@ class MainTabBarViewController: UITabBarController {
         refreshDelegate?.refreshData()
     }
     
+    @objc fileprivate func editForm() {
+    
+    }
+    
     @objc fileprivate func getCurrentAddress() {
-        
         LocationManager.shared.getCurrentPlace { (place, error) in
             guard error == nil, let place = place else {
                 return
@@ -85,7 +91,6 @@ class MainTabBarViewController: UITabBarController {
         let autocompleteController = GMSAutocompleteViewController()
         autocompleteController.delegate = self
         
-        // Set a filter to return only addresses.
         let filter = GMSAutocompleteFilter()
         filter.type = .address
         autocompleteController.autocompleteFilter = filter
@@ -93,6 +98,21 @@ class MainTabBarViewController: UITabBarController {
         present(autocompleteController, animated: true, completion: nil)
     }
     
+    fileprivate func selectMap() {
+        if let viewControllers = viewControllers, let mapVc = viewControllers[0] as? MapViewController {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "search"), style: .done, target: self, action: #selector(pushSearch))
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "refresh"), style: .done, target: self, action: #selector(refreshData))
+            mapVc.refreshData()
+        }
+    }
+    
+    fileprivate func selectCurrentSpot() {
+        if let viewControllers = viewControllers, let spotVc = viewControllers[1] as? SpotDetailViewController, let viewType = spotVc.viewType {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "pin"), style: .done, target: self, action: #selector(getCurrentAddress))
+            navigationItem.rightBarButtonItem = nil
+            spotVc.addressForm.refreshForm()
+        }
+    }
 }
 
 extension MainTabBarViewController: GMSAutocompleteViewControllerDelegate {
@@ -122,13 +142,13 @@ extension MainTabBarViewController: GMSAutocompleteViewControllerDelegate {
         dismiss(animated: true, completion: nil)
     }
     
-
 }
 
 extension MainTabBarViewController: Submittable {
     public func submittedForm() {
         if let viewControllers = viewControllers, let mapVc = viewControllers[0] as? MapViewController {
-           self.tabBarController(self, didSelect: mapVc)
+            selectedViewController = mapVc
+            selectMap()
         }
     }
 }
@@ -137,18 +157,12 @@ extension MainTabBarViewController: UITabBarControllerDelegate {
     
     public func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         switch viewController {
-        case let spotVc as SpotDetailViewController:
-            navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "pin"), style: .done, target: self, action: #selector(getCurrentAddress))
-            navigationItem.rightBarButtonItem = nil
-            spotVc.addressForm.refreshForm()
-        case let mapVc as MapViewController:
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "search"), style: .done, target: self, action: #selector(pushSearch))
-            navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "refresh"), style: .done, target: self, action: #selector(refreshData))
-            mapVc.refreshData()
+        case is SpotDetailViewController:
+            selectCurrentSpot()
+        case is MapViewController:
+           selectMap()
         default: break
         }
-        
     }
-    
 }
 

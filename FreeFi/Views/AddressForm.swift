@@ -21,6 +21,11 @@ public protocol FormSubmissionDelegate {
 
 internal class AddressForm: UIStackView {
     
+    enum Mode {
+        case readOnly
+        case write
+    }
+    
     internal enum FormError: Error {
         case emptyNetwork
         case emptyForm
@@ -41,6 +46,17 @@ internal class AddressForm: UIStackView {
     private var constructedAddress = ""
     lazy var geocoder = CLGeocoder()
     public var currentSpot: Spot? = nil
+    public var viewType: SpotDetailViewController.DetailViewType = .empty
+    public var mode: Mode = .readOnly {
+        didSet {
+            switch mode {
+            case .readOnly:
+                setupReadOnly()
+            default:
+                setupWrite()
+            }
+        }
+    }
 
     public var isEmpty: Bool {
         guard !nameRow.isEmpty, !addressRow.isEmpty, !stateRow.isEmpty, !networkRows.isEmpty else {
@@ -53,7 +69,6 @@ internal class AddressForm: UIStackView {
         return subviews.filter{$0 is NetworkInputView}.map{$0 as! NetworkInputView}
     }
     
-    public var viewType: SpotDetailViewController.DetailViewType = .empty
     public let basicSectionHeader: FormSectionHeader = {
         let row = FormSectionHeader()
         row.textLabel.text = "Basic Info"
@@ -123,12 +138,12 @@ internal class AddressForm: UIStackView {
     
     public convenience init(viewType: SpotDetailViewController.DetailViewType) {
         self.init(frame: .zero)
+        self.viewType = viewType
         switch viewType {
         case .existing(let spot):
             self.currentSpot = spot
         default: break
         }
-        self.viewType = viewType
         configureView()
     }
     
@@ -138,6 +153,48 @@ internal class AddressForm: UIStackView {
     
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configureView() {
+        
+        if let currentSpot = currentSpot, let address = currentSpot.address, let name = currentSpot.name, let city = currentSpot.city, let state = currentSpot.state {
+            nameRow.textInput.text = name
+            addressRow.textInput.text = address
+            stateRow.cityInput.text = city
+            stateRow.stateInput.text = state
+        }
+        
+        networkRow.addDelegate = self
+        
+        axis = .vertical
+        alignment = .center
+        distribution = .fillProportionally
+        spacing = 0.0
+        
+        for (index, element) in [basicSectionHeader, nameRow, addressRow, stateRow, networkSectionHeader, networkRow, submissionButton].enumerated() {
+            insertArrangedSubview(element, at: index)
+        }
+      
+        setupNetworkRows()
+    }
+    
+    func setupNetworkRows() {
+        guard let currentSpot = currentSpot, let networks = currentSpot.networks else {
+            return
+        }
+        
+        for (index, element) in networks.enumerated() {
+            switch index {
+            case 0:
+                networkRow.addDelegate = self
+                networkRow.setData(network: element)
+            default:
+                addNewRow()
+                if let addedRow = arrangedSubviews[arrangedSubviews.count - 1] as? NetworkInputView {
+                    addedRow.setData(network: element)
+                }
+            }
+        }
     }
     
     func createSpot(completion: @escaping (_ spot: Spot?, _ error: Error?) -> Void) {
@@ -225,47 +282,7 @@ internal class AddressForm: UIStackView {
             self.submissionDelegate?.submitSpot(spot: spotCopy)
         }
     }
-    
-    func setupAddButton() {
-        switch viewType {
-        case .existing( _):
-            submissionButton.isHidden = true
-        default:
-            submissionButton.setTitle("Add Spot", for: .normal)
-        }
-    }
-    
-    func configureView() {
         
-        if let currentSpot = currentSpot, let address = currentSpot.address, let name = currentSpot.name, let city = currentSpot.city, let state = currentSpot.state {
-            nameRow.textInput.text = name
-            addressRow.textInput.text = address
-            stateRow.cityInput.text = city
-            stateRow.stateInput.text = state
-        }
-        
-        networkRow.addDelegate = self
-      
-        setupAddButton()
-        setupNetworks()
-        
-        axis = .vertical
-        alignment = .center
-        distribution = .fillProportionally
-        spacing = 0.0
-        
-        insertArrangedSubview(basicSectionHeader, at: 0)
-        insertArrangedSubview(nameRow, at: 1)
-        insertArrangedSubview(addressRow, at: 2)
-        insertArrangedSubview(stateRow, at: 3)
-
-        insertArrangedSubview(networkSectionHeader, at: 4)
-        
-        insertArrangedSubview(networkRow, at: 5)
-        insertArrangedSubview(submissionButton, at: 6)
-        
-    }
-    
     override func layoutSubviews() {
         [basicSectionHeader, nameRow, addressRow, stateRow, networkRow, networkSectionHeader].forEach{
             $0.widthAnchor.constraint(equalToConstant: bounds.width).isActive = true
@@ -273,35 +290,7 @@ internal class AddressForm: UIStackView {
             $0.layoutIfNeeded()
         }
     }
-    
-    func setupNetworks() {
-        guard let currentSpot = currentSpot, let networks = currentSpot.networks else {
-            return
-        }
-        
-        for (index, element) in networks.enumerated() {
-            switch index {
-            case 0:
-                networkRow.addDelegate = self
-                networkRow.setData(network: element)
-            default:
-                addNewRow()
-                if let addedRow = arrangedSubviews[arrangedSubviews.count - 1] as? NetworkInputView {
-                    addedRow.setData(network: element)
-                }
-            }
-        }
-        
-        switch viewType {
-        case .existing(_):
-            networkRows.forEach{
-                $0.addButton.isHidden = true
-                $0.deleteButton.isHidden = true
-            }
-        default: break
-        }
-    }
-    
+
     public func refreshForm() {
         constructedAddress = ""
         nameRow.textInput.text = nil
@@ -316,6 +305,30 @@ internal class AddressForm: UIStackView {
         while arrangedSubviews.count > 7 {
             arrangedSubviews[5].removeFromSuperview()
         }
+    }
+    
+    func setupWrite() {
+        submissionButton.isHidden = false
+        isUserInteractionEnabled = true
+        submissionButton.setTitle("Update Spot", for: .normal)
+        for (index, networkRow) in networkRows.enumerated() {
+            switch index {
+            case networkRows.count - 1:
+                networkRow.addButton.isHidden = false
+                networkRow.deleteButton.isHidden = false
+            default:
+                networkRow.deleteButton.isHidden = false
+            }
+        }
+    }
+    
+    func setupReadOnly() {
+        submissionButton.isHidden = true
+        networkRows.forEach{
+            $0.addButton.isHidden = true
+            $0.deleteButton.isHidden = true
+        }
+        isUserInteractionEnabled = false
     }
     
 }

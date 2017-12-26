@@ -18,11 +18,6 @@ class SpotDetailViewController: UIViewController {
         case existing (spot: Spot)
     }
     
-    enum Mode {
-        case readOnly
-        case write
-    }
-    
     private var scrollView: UIScrollView = {
         var view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -32,7 +27,6 @@ class SpotDetailViewController: UIViewController {
     var submissionDelegate: Submittable?
     public var addressForm = AddressForm(viewType: .empty)
     public var viewType: DetailViewType!
-    public var mode: Mode = .readOnly
 
     public init(type: DetailViewType) {
         viewType = type
@@ -58,14 +52,16 @@ class SpotDetailViewController: UIViewController {
     }
     
     func setupViews() {
-    
-        if let viewType = viewType {
-            switch viewType {
-            case .existing(_):
-                navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-                navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editForm))
-            default: break
-            }
+        guard let viewType = viewType else {
+            return
+        }
+        
+        switch viewType {
+        case .existing(_):
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editData))
+            addressForm.mode = .readOnly
+        default:
+            addressForm.mode = .write
         }
         
         addressForm.textDelegate = self
@@ -106,11 +102,7 @@ class SpotDetailViewController: UIViewController {
     @objc func keyboardWillHide() {
         scrollView.contentOffset = CGPoint(x: 0.0, y: -64.0)
     }
-    
-    @objc func editForm() {
-        print("edit form")
-    }
-    
+        
 }
 
 extension SpotDetailViewController: FormErrorPresentable {
@@ -152,6 +144,11 @@ extension SpotDetailViewController: FormSubmissionDelegate {
             })
         }
     }
-    
+}
+
+extension SpotDetailViewController: Editable {
+    @objc func editData() {
+        addressForm.mode = .write
+    }
 }
 

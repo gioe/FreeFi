@@ -262,9 +262,9 @@ extension MapViewController: Refreshable {
         guard CLLocationManager.authorizationStatus() != .denied, !mapView.annotations.isEmpty else {
             return
         }
-        locationManager.startUpdatingLocation()
         closestLocations.removeAll()
         mapView.removeAnnotations(mapView.annotations)
+        locationManager.startUpdatingLocation()
     }
     
 }
