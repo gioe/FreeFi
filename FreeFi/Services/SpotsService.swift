@@ -13,14 +13,14 @@ public class SpotsService {
     public static let sharedInstance = SpotsService()
     
     func postSpotsUrl() -> URL? {
-        if let url = URL(string: "http://freefi.vapor.cloud/place/new") {
+        if let url = URL(string: "https://freefiapp.herokuapp.com/place/new") {
             return url
         }
         return nil
     }
     
     func getSpotsUrl(zipCode: String) -> URL? {
-        if let url = URL(string: "http://freefi.vapor.cloud/nearbyPlaces/\(zipCode)") {
+        if let url = URL(string: "https://freefiapp.herokuapp.com/nearbyPlaces/\(zipCode)") {
             return url
         }
         return nil
@@ -53,6 +53,7 @@ public class SpotsService {
         request.httpMethod = "GET"
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
+
             if error != nil {
                 completion(nil, nil, error)
             }

@@ -40,6 +40,7 @@ internal class AddressForm: UIStackView {
     public var errorDelegate: FormErrorPresentable?
     private var constructedAddress = ""
     lazy var geocoder = CLGeocoder()
+    public var currentSpot: Spot? = nil
 
     public var isEmpty: Bool {
         guard !nameRow.isEmpty, !addressRow.isEmpty, !stateRow.isEmpty, !networkRows.isEmpty else {
@@ -122,6 +123,11 @@ internal class AddressForm: UIStackView {
     
     public convenience init(viewType: SpotDetailViewController.DetailViewType) {
         self.init(frame: .zero)
+        switch viewType {
+        case .existing(let spot):
+            self.currentSpot = spot
+        default: break
+        }
         self.viewType = viewType
         configureView()
     }
@@ -221,10 +227,9 @@ internal class AddressForm: UIStackView {
     }
     
     func setupAddButton() {
-    
         switch viewType {
         case .existing( _):
-            submissionButton.setTitle("Update Spot", for: .normal)
+            submissionButton.isHidden = true
         default:
             submissionButton.setTitle("Add Spot", for: .normal)
         }
@@ -232,7 +237,7 @@ internal class AddressForm: UIStackView {
     
     func configureView() {
         
-        if let address = viewType.address, let name = viewType.name, let city = viewType.city, let state = viewType.state {
+        if let currentSpot = currentSpot, let address = currentSpot.address, let name = currentSpot.name, let city = currentSpot.city, let state = currentSpot.state {
             nameRow.textInput.text = name
             addressRow.textInput.text = address
             stateRow.cityInput.text = city
@@ -242,7 +247,6 @@ internal class AddressForm: UIStackView {
         networkRow.addDelegate = self
       
         setupAddButton()
-        
         setupNetworks()
         
         axis = .vertical
@@ -271,8 +275,7 @@ internal class AddressForm: UIStackView {
     }
     
     func setupNetworks() {
-        guard 
-            let networks = viewType.networks else {
+        guard let currentSpot = currentSpot, let networks = currentSpot.networks else {
             return
         }
         
@@ -287,6 +290,15 @@ internal class AddressForm: UIStackView {
                     addedRow.setData(network: element)
                 }
             }
+        }
+        
+        switch viewType {
+        case .existing(_):
+            networkRows.forEach{
+                $0.addButton.isHidden = true
+                $0.deleteButton.isHidden = true
+            }
+        default: break
         }
     }
     

@@ -16,60 +16,11 @@ class SpotDetailViewController: UIViewController {
         case empty
         case new (location: CLLocation)
         case existing (spot: Spot)
-        
-        var name: String? {
-            switch self {
-            case .existing(let spot):
-                return spot.name
-            default:
-                return nil
-            }
-        }
-        
-        var address: String? {
-            switch self {
-            case .existing(let spot):
-                return spot.address
-            default:
-                return nil
-            }
-        }
-        
-        var city: String? {
-            switch self {
-            case .existing(let spot):
-                return spot.city
-            default:
-                return nil
-            }
-        }
-        
-        var state: String? {
-            switch self {
-            case .existing(let spot):
-                return spot.state
-            default:
-                return nil
-            }
-        }
-        
-        var location: CLLocation? {
-            switch self {
-            case .new(let location):
-                return location
-            default:
-                return nil
-            }
-        }
-        
-        var networks: [Network]? {
-            switch self {
-            case .existing(let spot):
-                return spot.networks
-            default:
-                return nil
-            }
-        }
+    }
+    
+    enum Mode {
+        case readOnly
+        case write
     }
     
     private var scrollView: UIScrollView = {
@@ -81,7 +32,8 @@ class SpotDetailViewController: UIViewController {
     var submissionDelegate: Submittable?
     public var addressForm = AddressForm(viewType: .empty)
     public var viewType: DetailViewType!
-    
+    public var mode: Mode = .readOnly
+
     public init(type: DetailViewType) {
         viewType = type
         addressForm = AddressForm(viewType: type)
@@ -95,7 +47,6 @@ class SpotDetailViewController: UIViewController {
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        navigationController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     override func viewDidLoad() {
@@ -108,6 +59,15 @@ class SpotDetailViewController: UIViewController {
     
     func setupViews() {
     
+        if let viewType = viewType {
+            switch viewType {
+            case .existing(_):
+                navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+                navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editForm))
+            default: break
+            }
+        }
+        
         addressForm.textDelegate = self
         addressForm.submissionDelegate = self
         addressForm.errorDelegate = self
@@ -145,6 +105,10 @@ class SpotDetailViewController: UIViewController {
     
     @objc func keyboardWillHide() {
         scrollView.contentOffset = CGPoint(x: 0.0, y: -64.0)
+    }
+    
+    @objc func editForm() {
+        print("edit form")
     }
     
 }
