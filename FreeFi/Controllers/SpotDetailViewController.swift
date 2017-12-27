@@ -107,8 +107,8 @@ class SpotDetailViewController: UIViewController {
 
 extension SpotDetailViewController: FormErrorPresentable {
    
-    func presentErrorOfType(_ type: AddressForm.FormError) {
-        let alertController = UIAlertController(title: "Alert", message: type.errorMessage, preferredStyle: .alert)
+    func presentError(_ error: InternalError) {
+        let alertController = UIAlertController(title: "Error", message: error.errorMessage, preferredStyle: .alert)
        
         let action1 = UIAlertAction(title: "OK", style: .default)
         
@@ -136,12 +136,14 @@ extension SpotDetailViewController: FormSubmissionDelegate {
     public func submitSpot(spot: Spot) {
         
         SpotsService.sharedInstance.postSpot(spot) { (response, error) in
-            guard error == nil else {
+            SwiftSpinner.hide()
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.presentError(error)
+                }
                 return
             }
-            SwiftSpinner.hide({
-                self.submissionDelegate?.submittedForm()
-            })
+            self.submissionDelegate?.submittedForm()
         }
     }
 }

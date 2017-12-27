@@ -11,8 +11,12 @@ import SwiftSpinner
 import GooglePlaces
 import CoreLocation
 
+public protocol InternalError {
+    var errorMessage: String { get }
+}
+
 internal protocol FormErrorPresentable {
-    func presentErrorOfType(_ type: AddressForm.FormError)
+    func presentError(_ error: InternalError)
 }
 
 public protocol FormSubmissionDelegate {
@@ -26,7 +30,7 @@ internal class AddressForm: UIStackView {
         case write
     }
     
-    internal enum FormError: Error {
+    internal enum FormError: InternalError, Error {
         case emptyNetwork
         case emptyForm
         case spotCreation
@@ -255,7 +259,7 @@ internal class AddressForm: UIStackView {
         SwiftSpinner.show("Submitting...")
         
         guard !isEmpty else {
-            errorDelegate?.presentErrorOfType(.emptyForm)
+            errorDelegate?.presentError(FormError.emptyForm)
             SwiftSpinner.hide()
             return
         }
@@ -263,7 +267,7 @@ internal class AddressForm: UIStackView {
         createSpot { (spot, error) in
         
             guard error == nil, let spot = spot else {
-                self.errorDelegate?.presentErrorOfType(.spotCreation)
+                self.errorDelegate?.presentError(FormError.spotCreation)
                 return
             }
             
@@ -310,7 +314,7 @@ internal class AddressForm: UIStackView {
     func setupWrite() {
         submissionButton.isHidden = false
         isUserInteractionEnabled = true
-        submissionButton.setTitle("Update Spot", for: .normal)
+        submissionButton.setTitle("Add Spot", for: .normal)
         for (index, networkRow) in networkRows.enumerated() {
             switch index {
             case networkRows.count - 1:
@@ -337,7 +341,7 @@ extension AddressForm: AddRowDelegate {
     
     internal func addNewRow() {
         guard let lastNetworkRow = arrangedSubviews[5] as? NetworkInputView, !lastNetworkRow.isEmpty else {
-            errorDelegate?.presentErrorOfType(.emptyNetwork)
+            errorDelegate?.presentError(FormError.emptyNetwork)
             return
         }
         

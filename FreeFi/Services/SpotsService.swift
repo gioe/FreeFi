@@ -7,8 +7,17 @@
 //
 
 import Foundation
-
 public class SpotsService {
+    
+    internal enum ServerError: String, InternalError, Error {
+        case duplicateSpot = "This spot already exists."
+        
+        var errorMessage: String {
+            switch self {
+            default: return self.rawValue
+            }
+        }
+    }
     
     public static let sharedInstance = SpotsService()
     
@@ -26,7 +35,7 @@ public class SpotsService {
         return nil
     }
     
-    public func postSpot(_ spot: Spot, _ completion: @escaping (_ response: Bool, _ error: Error?) -> Void) {
+    public func postSpot(_ spot: Spot, _ completion: @escaping (_ response: Bool, _ error: InternalError?) -> Void) {
         
         var request = URLRequest(url: postSpotsUrl()!)
         request.httpMethod = "POST"
@@ -38,7 +47,12 @@ public class SpotsService {
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             
-            guard let responseData = data, let _ = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: AnyObject]  else {
+            guard let responseData = data, let parsedResponse = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: AnyObject] else {
+                completion(false, nil)
+                return
+            }
+            
+            if let parsedResponse = parsedResponse, let message = parsedResponse["message"] as? String, let error = ServerError(rawValue: message) {
                 completion(false, error)
                 return
             }
