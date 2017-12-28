@@ -28,6 +28,13 @@ public class SpotsService {
         return nil
     }
     
+    func updateSpotUrl() -> URL? {
+        if let url = URL(string: "https://freefiapp.herokuapp.com/place/update") {
+            return url
+        }
+        return nil
+    }
+    
     func getSpotsUrl(zipCode: String) -> URL? {
         if let url = URL(string: "https://freefiapp.herokuapp.com/nearbyPlaces/\(zipCode)") {
             return url
@@ -63,7 +70,7 @@ public class SpotsService {
     
     public func getNearbySpots(_ zipCode: String, completion: @escaping (_ spot: [Spot]?, _ response: HTTPURLResponse?, _ error: Error?) -> Void) {
         
-        var request = URLRequest(url: getSpotsUrl(zipCode: "94103")!)
+        var request = URLRequest(url: getSpotsUrl(zipCode: zipCode)!)
         request.httpMethod = "GET"
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
@@ -83,7 +90,32 @@ public class SpotsService {
                 print(jsonError)
             }
             }.resume()
+    }
+    
+    public func updateSpot(_ spot: Spot, _ completion: @escaping (_ response: Bool, _ error: InternalError?) -> Void) {
         
+        var request = URLRequest(url: updateSpotUrl()!)
+        request.httpMethod = "PUT"
+        
+        let encoder = JSONEncoder()
+        let data = try! encoder.encode(spot)
+        
+        request.httpBody = data
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
+            guard let responseData = data, let parsedResponse = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: AnyObject] else {
+                completion(false, nil)
+                return
+            }
+            
+            if let parsedResponse = parsedResponse, let message = parsedResponse["message"] as? String, let error = ServerError(rawValue: message) {
+                completion(false, error)
+                return
+            }
+            completion(true, nil)
+            
+            }.resume()
     }
     
 }

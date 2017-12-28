@@ -134,7 +134,6 @@ extension SpotDetailViewController: UITextFieldDelegate {
 extension SpotDetailViewController: FormSubmissionDelegate {
     
     public func submitSpot(spot: Spot) {
-        
         SpotsService.sharedInstance.postSpot(spot) { (response, error) in
             SwiftSpinner.hide()
             if let error = error {
@@ -146,10 +145,25 @@ extension SpotDetailViewController: FormSubmissionDelegate {
             self.submissionDelegate?.submittedForm()
         }
     }
+    
+    public func updateSpot(spot: Spot) {
+        SpotsService.sharedInstance.updateSpot(spot) { (response, error) in
+            SwiftSpinner.hide()
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.presentError(error)
+                }
+                return
+            }
+            self.submissionDelegate?.submittedForm()
+        }
+    }
+
 }
 
 extension SpotDetailViewController: Editable {
     @objc func editData() {
+        addressForm.submissionButton.setTitle("Update Spot", for: .normal)
         addressForm.mode = .write
     }
 }

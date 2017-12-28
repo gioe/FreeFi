@@ -21,9 +21,12 @@ internal protocol FormErrorPresentable {
 
 public protocol FormSubmissionDelegate {
     func submitSpot(spot: Spot)
+    func updateSpot(spot: Spot)
 }
 
 internal class AddressForm: UIStackView {
+    
+    typealias SpotCreationCompletion = (_ spot: Spot?, _ error: Error?) -> Void
     
     enum Mode {
         case readOnly
@@ -161,11 +164,11 @@ internal class AddressForm: UIStackView {
     
     func configureView() {
         
-        if let currentSpot = currentSpot, let address = currentSpot.address, let name = currentSpot.name, let city = currentSpot.city, let state = currentSpot.state {
-            nameRow.textInput.text = name
-            addressRow.textInput.text = address
-            stateRow.cityInput.text = city
-            stateRow.stateInput.text = state
+        if let currentSpot = currentSpot {
+            nameRow.textInput.text = currentSpot.name
+            addressRow.textInput.text = currentSpot.address
+            stateRow.cityInput.text = currentSpot.city
+            stateRow.stateInput.text = currentSpot.state
         }
         
         networkRow.addDelegate = self
@@ -201,7 +204,34 @@ internal class AddressForm: UIStackView {
         }
     }
     
-    func createSpot(completion: @escaping (_ spot: Spot?, _ error: Error?) -> Void) {
+    func postSpot(_ spot: Spot?, _ error: Error?) {
+        guard error == nil, let spot = spot else {
+            self.errorDelegate?.presentError(FormError.spotCreation)
+            return
+        }
+        
+        var spotCopy = spot
+        var networkArray: [Network] = []
+        
+        for (index, networkRow) in networkRows.enumerated() {
+            if let networkName = networkRow.networkNameInput.text, let password =  networkRow.passwordInput.text, !networkRow.isEmpty, !networkRow.isEmpty {
+                let network = Network(id: currentSpot?.networks?[index].id ?? 0, name: networkName, password: password)
+                networkArray.append(network)
+            }
+        }
+       
+        
+        spotCopy.networks = networkArray
+        
+        switch self.viewType {
+        case .existing(_):
+            self.submissionDelegate?.updateSpot(spot: spotCopy)
+        default:
+            self.submissionDelegate?.submitSpot(spot: spotCopy)
+        }
+    }
+    
+    func createSpot(completion: @escaping SpotCreationCompletion) {
         
         guard let street = addressRow.textInput.text else { return }
         guard let city = stateRow.cityInput.text else { return }
@@ -226,7 +256,8 @@ internal class AddressForm: UIStackView {
         
         let address = number + " " + street
         
-        return Spot(name: name, address: address, city: city, state: state, zipCode: zipInt, latitude: latitude, longitude: longitude)
+        return Spot(id: currentSpot?.id ?? 0, name: name, address: address, city: city, state: state, zipCode: zipInt, latitude: latitude, longitude: longitude)
+        
     }
     
     public func injectPlaceIntoForm(place: GMSPlace) {
@@ -263,28 +294,7 @@ internal class AddressForm: UIStackView {
             SwiftSpinner.hide()
             return
         }
-        
-        createSpot { (spot, error) in
-        
-            guard error == nil, let spot = spot else {
-                self.errorDelegate?.presentError(FormError.spotCreation)
-                return
-            }
-            
-            var spotCopy = spot
-            var networkArray: [Network] = []
-        
-            self.subviews.forEach{
-                if let networkView = $0 as? NetworkInputView, let networkName = networkView.networkNameInput.text, let password =  networkView.passwordInput.text, !networkName.isEmpty, !password.isEmpty {
-                    let network = Network(name: networkName, password: password)
-                    networkArray.append(network)
-                }
-            }
-            
-            spotCopy.networks = networkArray
-            
-            self.submissionDelegate?.submitSpot(spot: spotCopy)
-        }
+        createSpot(completion: self.postSpot(_:_:))
     }
         
     override func layoutSubviews() {
@@ -314,7 +324,6 @@ internal class AddressForm: UIStackView {
     func setupWrite() {
         submissionButton.isHidden = false
         isUserInteractionEnabled = true
-        submissionButton.setTitle("Add Spot", for: .normal)
         for (index, networkRow) in networkRows.enumerated() {
             switch index {
             case networkRows.count - 1:
