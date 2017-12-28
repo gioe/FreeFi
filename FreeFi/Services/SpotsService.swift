@@ -63,7 +63,7 @@ public class SpotsService {
     
     public func getNearbySpots(_ zipCode: String, completion: @escaping (_ spot: [Spot]?, _ response: HTTPURLResponse?, _ error: Error?) -> Void) {
         
-        var request = URLRequest(url: getSpotsUrl(zipCode: zipCode)!)
+        var request = URLRequest(url: getSpotsUrl(zipCode: "94103")!)
         request.httpMethod = "GET"
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in

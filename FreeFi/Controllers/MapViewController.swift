@@ -117,6 +117,7 @@ class MapViewController: UIViewController {
                 self.mapView.addAnnotation(annotation) //Yes!! This method adds the annotations
             }
         }
+        SwiftSpinner.hide()
     }
     
     private func determineZipcode() {
@@ -133,6 +134,7 @@ class MapViewController: UIViewController {
     }
     
     private func lookupSpotsAtZipcode(_ zipCode: String) {
+        SwiftSpinner.show("Fetching spots...")
         viewModel.getNearbySpots(zipCode: zipCode) {
             self.closestLocations = $0
         }
@@ -213,57 +215,16 @@ extension MapViewController: MKMapViewDelegate {
 
 }
 
-extension MapViewController: GMSAutocompleteViewControllerDelegate {
-    
-    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-        
-        if let addressLines = place.addressComponents {
-            // Populate all of the address fields we can find.
-            for field in addressLines {
-                switch field.type {
-                case kGMSPlaceTypePostalCode:
-                    mapView.centerCoordinate = place.coordinate
-                    currentZipCode = field.name
-                    refreshData()
-                default:
-                    print("Type: \(field.type), Name: \(field.name)")
-                }
-            }
-        }
-        
-        // Close the autocomplete widget.
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    
-    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
-        // TODO: handle the error.
-        print("Error: ", error.localizedDescription)
-    }
-    
-    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    // Show the network activity indicator.
-    func didRequestAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
-    }
-    
-    // Hide the network activity indicator.
-    func didUpdateAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-    }
-}
-
 extension MapViewController: Refreshable {
     
     public func refreshData() {
-        guard CLLocationManager.authorizationStatus() != .denied, !mapView.annotations.isEmpty else {
+        guard CLLocationManager.authorizationStatus() != .denied else {
             return
         }
+        if !mapView.annotations.isEmpty {
+            mapView.removeAnnotations(mapView.annotations)
+        }
         closestLocations.removeAll()
-        mapView.removeAnnotations(mapView.annotations)
         locationManager.startUpdatingLocation()
     }
     

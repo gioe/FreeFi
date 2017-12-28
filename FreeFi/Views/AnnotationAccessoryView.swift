@@ -20,6 +20,7 @@ class AnnotationAccessoryView: UIView {
     
     private var textLabel: UILabel = {
         var label = UILabel()
+        label.adjustsFontSizeToFitWidth = true
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
