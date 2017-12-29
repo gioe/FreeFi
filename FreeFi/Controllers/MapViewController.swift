@@ -19,6 +19,7 @@ class MapViewController: UIViewController {
         case denied
     }
     
+    var submissionDelegate: Submittable?
     fileprivate let identifier = "Pin"
     private let searchController = UISearchController(searchResultsController: nil)
     private var viewModel = SpotsViewModel()
@@ -241,6 +242,7 @@ extension MapViewController: CalloutSelectionDelegate {
         }
       
         let currentSpot = SpotDetailViewController(type: .existing(spot: spot))
+        currentSpot.submissionDelegate = self.submissionDelegate
         navigationController?.pushViewController(currentSpot, animated: true)
         mapView.deselectAnnotation(annotation, animated: true)
     }

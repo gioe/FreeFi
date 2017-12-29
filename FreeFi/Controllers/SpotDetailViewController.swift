@@ -10,9 +10,9 @@ import UIKit
 import CoreLocation
 import SwiftSpinner
 
-class SpotDetailViewController: UIViewController {
+public class SpotDetailViewController: UIViewController {
     
-    enum DetailViewType {
+    public enum DetailViewType {
         case empty
         case new (location: CLLocation)
         case existing (spot: Spot)
@@ -43,7 +43,7 @@ class SpotDetailViewController: UIViewController {
         super.init(coder: aDecoder)
     }
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
@@ -107,7 +107,7 @@ class SpotDetailViewController: UIViewController {
 
 extension SpotDetailViewController: FormErrorPresentable {
    
-    func presentError(_ error: InternalError) {
+    public func presentError(_ error: InternalError) {
         let alertController = UIAlertController(title: "Error", message: error.errorMessage, preferredStyle: .alert)
        
         let action1 = UIAlertAction(title: "OK", style: .default)
@@ -142,7 +142,7 @@ extension SpotDetailViewController: FormSubmissionDelegate {
                 }
                 return
             }
-            self.submissionDelegate?.submittedForm()
+            self.submissionDelegate?.submittedForm(self.viewType, view: nil)
         }
     }
     
@@ -155,14 +155,14 @@ extension SpotDetailViewController: FormSubmissionDelegate {
                 }
                 return
             }
-            self.submissionDelegate?.submittedForm()
+            self.submissionDelegate?.submittedForm(self.viewType, view: self)
         }
     }
 
 }
 
 extension SpotDetailViewController: Editable {
-    @objc func editData() {
+    @objc public func editData() {
         addressForm.submissionButton.setTitle("Update Spot", for: .normal)
         addressForm.mode = .write
     }

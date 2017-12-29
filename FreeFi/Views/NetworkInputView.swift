@@ -14,7 +14,7 @@ protocol AddRowDelegate {
     func removeRow(row: NetworkInputView)
 }
 
-class NetworkInputView: UIView {
+public class NetworkInputView: UIView {
     
     var addDelegate: AddRowDelegate?
     
@@ -70,7 +70,7 @@ class NetworkInputView: UIView {
         configureView()
     }
     
-    required init(coder: NSCoder) {
+    required public init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -81,7 +81,7 @@ class NetworkInputView: UIView {
         }
     }
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         addButton.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
         addButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         addButton.widthAnchor.constraint(equalToConstant: 20).isActive = true

@@ -9,7 +9,7 @@
 import UIKit
 import TextFieldEffects
 
-class DoubleTextInputView: UIView {
+public class DoubleTextInputView: UIView {
     
     public var isEmpty: Bool {
         guard let networkName = cityInput.text, !networkName.isEmpty, let passwordName = stateInput.text, !passwordName.isEmpty else {
@@ -43,7 +43,7 @@ class DoubleTextInputView: UIView {
         configureView()
     }
     
-    required init(coder: NSCoder) {
+    required public init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -55,7 +55,7 @@ class DoubleTextInputView: UIView {
         
     }
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         cityInput.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
         cityInput.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
         cityInput.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10).isActive = true

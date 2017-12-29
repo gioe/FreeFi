@@ -9,7 +9,7 @@
 import UIKit
 import TextFieldEffects
 
-class TextInputView: UIView {
+public class TextInputView: UIView {
     
     public var isEmpty: Bool {
         guard let textInputText = textInput.text, !textInputText.isEmpty else {
@@ -32,7 +32,7 @@ class TextInputView: UIView {
         configureView()
     }
     
-    required init(coder: NSCoder) {
+    required public init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -43,7 +43,7 @@ class TextInputView: UIView {
         }
     }
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         textInput.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
         textInput.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
         textInput.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10).isActive = true

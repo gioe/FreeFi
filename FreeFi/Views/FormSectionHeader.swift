@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FormSectionHeader: UIView {
+public class FormSectionHeader: UIView {
     
     public var textLabel: UILabel = {
         var label = UILabel()
@@ -23,7 +23,7 @@ class FormSectionHeader: UIView {
         configureView()
     }
     
-    required init(coder: NSCoder) {
+    required public init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -36,7 +36,7 @@ class FormSectionHeader: UIView {
         }
     }
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         textLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
         textLabel.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         textLabel.topAnchor.constraint(equalTo: topAnchor).isActive = true

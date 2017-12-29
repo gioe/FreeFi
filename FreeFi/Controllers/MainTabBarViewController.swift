@@ -10,7 +10,7 @@ import UIKit
 import GooglePlaces
 
 public protocol Submittable {
-    func submittedForm()
+    func submittedForm(_ type: SpotDetailViewController.DetailViewType, view: UIViewController?)
 }
 
 public protocol Refreshable {
@@ -55,6 +55,7 @@ class MainTabBarViewController: UITabBarController {
     
     private func setupViewControllers() {
         let mapView = MapViewController()
+        mapView.submissionDelegate = self
         mapView.view.backgroundColor = .white
         refreshDelegate = mapView
         mapView.tabBarItem = UITabBarItem(title: "Current Spot", image: #imageLiteral(resourceName: "pin"), selectedImage: #imageLiteral(resourceName: "pin"))
@@ -145,13 +146,24 @@ extension MainTabBarViewController: GMSAutocompleteViewControllerDelegate {
 }
 
 extension MainTabBarViewController: Submittable {
-    public func submittedForm() {
-        if let viewControllers = viewControllers, let mapVc = viewControllers[0] as? MapViewController {
-            DispatchQueue.main.async {
-                self.selectedViewController = mapVc
-                self.selectMap()
+    func submittedForm(_ type: SpotDetailViewController.DetailViewType, view: UIViewController?) {
+        switch type {
+        case .existing(_):
+            if let view = view {
+                DispatchQueue.main.async {
+                    view.navigationController?.popViewController(animated: true)
+                    self.selectMap()
+                }
+            }
+        default:
+            if let viewControllers = viewControllers, let mapVc = viewControllers[0] as? MapViewController {
+                DispatchQueue.main.async {
+                    self.selectedViewController = mapVc
+                    self.selectMap()
+                }
             }
         }
+       
     }
 }
 

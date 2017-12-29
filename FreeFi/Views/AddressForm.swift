@@ -15,7 +15,7 @@ public protocol InternalError {
     var errorMessage: String { get }
 }
 
-internal protocol FormErrorPresentable {
+public protocol FormErrorPresentable {
     func presentError(_ error: InternalError)
 }
 
@@ -24,21 +24,21 @@ public protocol FormSubmissionDelegate {
     func updateSpot(spot: Spot)
 }
 
-internal class AddressForm: UIStackView {
+public class AddressForm: UIStackView {
     
     typealias SpotCreationCompletion = (_ spot: Spot?, _ error: Error?) -> Void
     
-    enum Mode {
+    public enum Mode {
         case readOnly
         case write
     }
     
-    internal enum FormError: InternalError, Error {
+    public enum FormError: InternalError, Error {
         case emptyNetwork
         case emptyForm
         case spotCreation
 
-        var errorMessage: String {
+        public var errorMessage: String {
             switch self {
             case .emptyForm:
                 return "Form is not sufficiently filled out. Please check that all relevant information is filled in and resubmit."
@@ -158,7 +158,7 @@ internal class AddressForm: UIStackView {
         super.init(frame: frame)
     }
     
-    required init(coder: NSCoder) {
+    required public init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -297,7 +297,7 @@ internal class AddressForm: UIStackView {
         createSpot(completion: self.postSpot(_:_:))
     }
         
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         [basicSectionHeader, nameRow, addressRow, stateRow, networkRow, networkSectionHeader].forEach{
             $0.widthAnchor.constraint(equalToConstant: bounds.width).isActive = true
             $0.setNeedsLayout()
