@@ -73,7 +73,7 @@ public class AddressForm: UIStackView {
     }
     
     public var networkRows: [NetworkInputView] {
-        return subviews.filter{$0 is NetworkInputView}.map{$0 as! NetworkInputView}
+        return arrangedSubviews.filter{$0 is NetworkInputView}.map{$0 as! NetworkInputView}
     }
     
     public let basicSectionHeader: FormSectionHeader = {
@@ -183,6 +183,7 @@ public class AddressForm: UIStackView {
         }
       
         setupNetworkRows()
+        
     }
     
     func setupNetworkRows() {
@@ -197,7 +198,7 @@ public class AddressForm: UIStackView {
                 networkRow.setData(network: element)
             default:
                 addNewRow()
-                if let addedRow = arrangedSubviews[arrangedSubviews.count - 1] as? NetworkInputView {
+                if let addedRow = arrangedSubviews[5] as? NetworkInputView {
                     addedRow.setData(network: element)
                 }
             }
@@ -210,17 +211,30 @@ public class AddressForm: UIStackView {
             return
         }
         
+        currentSpot = spot
         var spotCopy = spot
         var networkArray: [Network] = []
         
         for (index, networkRow) in networkRows.enumerated() {
-            if let networkName = networkRow.networkNameInput.text, let password =  networkRow.passwordInput.text, !networkRow.isEmpty, !networkRow.isEmpty {
-                let network = Network(id: currentSpot?.networks?[index].id ?? 0, name: networkName, password: password)
-                networkArray.append(network)
+          
+            var existingNetworkCount: Int = 0
+            if let currentSpot = currentSpot, let networks = currentSpot.networks {
+                existingNetworkCount = networks.count
+            }
+            
+            if let currentSpot = currentSpot, let networkName = networkRow.networkNameInput.text, let password =  networkRow.passwordInput.text, !networkRow.isEmpty, !networkRow.isEmpty {
+                
+                if index < networkRows.count - existingNetworkCount {
+                    let network = Network(id: 0, name: networkName, password: password)
+                    networkArray.append(network)
+                } else {
+                    let network = Network(id: currentSpot.networks?[networkRows.count - existingNetworkCount - index].id ?? 0, name: networkName, password: password)
+                    networkArray.append(network)
+                }
+                
             }
         }
        
-        
         spotCopy.networks = networkArray
         
         switch self.viewType {
@@ -298,8 +312,9 @@ public class AddressForm: UIStackView {
     }
         
     override public func layoutSubviews() {
-        [basicSectionHeader, nameRow, addressRow, stateRow, networkRow, networkSectionHeader].forEach{
-            $0.widthAnchor.constraint(equalToConstant: bounds.width).isActive = true
+        arrangedSubviews.forEach{
+            let window = UIWindow().screen.bounds
+            $0.widthAnchor.constraint(equalToConstant: window.width).isActive = true
             $0.setNeedsLayout()
             $0.layoutIfNeeded()
         }
@@ -361,10 +376,13 @@ extension AddressForm: AddRowDelegate {
         row.networkNameInput.delegate = textDelegate
         row.passwordInput.delegate = textDelegate
         row.heightAnchor.constraint(equalToConstant: 70).isActive = true
-        row.widthAnchor.constraint(equalToConstant: bounds.width).isActive = true
+        let window = UIWindow().screen.bounds
+        row.widthAnchor.constraint(equalToConstant: window.width).isActive = true
         row.addDelegate = self
         self.networkRow = row
         insertArrangedSubview(row, at: 5)
+        setNeedsLayout()
+        layoutIfNeeded()
     }
     
     internal func removeRow(row: NetworkInputView) {
