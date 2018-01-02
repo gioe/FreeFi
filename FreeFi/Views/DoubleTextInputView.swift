@@ -22,6 +22,8 @@ public class DoubleTextInputView: UIView {
         var input = HoshiTextField()
         input.borderActiveColor = .white
         input.borderInactiveColor = .black
+        input.adjustsFontSizeToFitWidth = true
+        input.minimumFontSize = 7.0
         input.placeholder = "City"
         input.textAlignment = .left
         input.translatesAutoresizingMaskIntoConstraints = false
@@ -32,6 +34,8 @@ public class DoubleTextInputView: UIView {
         var input = HoshiTextField()
         input.borderActiveColor = .white
         input.borderInactiveColor = .black
+        input.adjustsFontSizeToFitWidth = true
+        input.minimumFontSize = 7.0
         input.placeholder = "State"
         input.textAlignment = .left
         input.translatesAutoresizingMaskIntoConstraints = false

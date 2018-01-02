@@ -29,6 +29,8 @@ public class NetworkInputView: UIView {
         var input = HoshiTextField()
         input.borderActiveColor = .white
         input.borderInactiveColor = .black
+        input.adjustsFontSizeToFitWidth = true
+        input.minimumFontSize = 7.0
         input.placeholder = "Network Name"
         input.textAlignment = .left
         input.translatesAutoresizingMaskIntoConstraints = false
@@ -39,6 +41,8 @@ public class NetworkInputView: UIView {
         var input = HoshiTextField()
         input.borderActiveColor = .white
         input.borderInactiveColor = .black
+        input.adjustsFontSizeToFitWidth = true
+        input.minimumFontSize = 7.0
         input.placeholder = "Password"
         input.textAlignment = .left
         input.translatesAutoresizingMaskIntoConstraints = false

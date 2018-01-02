@@ -24,6 +24,8 @@ public class TextInputView: UIView {
         input.borderInactiveColor = .black
         input.textAlignment = .left
         input.translatesAutoresizingMaskIntoConstraints = false
+        input.adjustsFontSizeToFitWidth = true
+        input.minimumFontSize = 7.0
         return input
     }()
     
