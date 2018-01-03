@@ -78,12 +78,14 @@ class MainTabBarViewController: UITabBarController {
     
     @objc fileprivate func getCurrentAddress() {
         LocationManager.shared.getCurrentPlace { (place, error) in
-            guard error == nil, let place = place else {
-                return
-            }
             if let viewControllers = self.viewControllers, let spotVc = viewControllers[1] as? SpotDetailViewController {
+                guard error == nil, let place = place else {
+                    spotVc.presentError(AddressForm.FormError.spotGeneration)
+                    return
+                }
                 spotVc.addressForm.injectPlaceIntoForm(place: place)
             }
+
         }
         
     }

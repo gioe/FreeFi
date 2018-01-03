@@ -108,6 +108,7 @@ public class SpotDetailViewController: UIViewController {
 extension SpotDetailViewController: FormErrorPresentable {
    
     public func presentError(_ error: InternalError) {
+        SwiftSpinner.hide()
         let alertController = UIAlertController(title: "Error", message: error.errorMessage, preferredStyle: .alert)
        
         let action1 = UIAlertAction(title: "OK", style: .default)

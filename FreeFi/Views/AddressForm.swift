@@ -36,12 +36,17 @@ public class AddressForm: UIStackView {
     public enum FormError: InternalError, Error {
         case emptyNetwork
         case emptyForm
-        case spotCreation
+        case spotPosting
+        case spotGeneration
 
         public var errorMessage: String {
             switch self {
             case .emptyForm:
                 return "Form is not sufficiently filled out. Please check that all relevant information is filled in and resubmit."
+            case .spotPosting:
+                return "There was an error creating your spot. Please make sure the input data is correct and try again."
+            case .spotGeneration:
+                return "There was an error determining your address. Please check your network connection."
             default:
                 return "Can't add another network before filling in the last one."
             }
@@ -207,7 +212,7 @@ public class AddressForm: UIStackView {
     
     func postSpot(_ spot: Spot?, _ error: Error?) {
         guard error == nil, let spot = spot else {
-            self.errorDelegate?.presentError(FormError.spotCreation)
+            self.errorDelegate?.presentError(FormError.spotPosting)
             return
         }
         
@@ -257,7 +262,7 @@ public class AddressForm: UIStackView {
         geocoder.geocodeAddressString(address) { (placemarks, error) in
             // Process Response
             guard error == nil, let spot = self.processResponse(withPlacemarks: placemarks) else {
-                completion(nil, FormError.spotCreation)
+                completion(nil, FormError.spotPosting)
                 return
             }
             completion(spot, nil)
