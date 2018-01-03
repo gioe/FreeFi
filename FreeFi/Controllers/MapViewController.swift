@@ -155,7 +155,7 @@ extension MapViewController: CLLocationManagerDelegate {
     public func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         
         switch status {
-        case .authorizedAlways:
+        case .authorizedAlways, .authorizedWhenInUse:
             mapPermission = .allowed
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startUpdatingLocation()
